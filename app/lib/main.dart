@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:formation_flutter/res/app_theme_extension.dart';
+import 'package:formation_flutter/screens/auth/login_screen.dart';
+import 'package:formation_flutter/screens/auth/register_screen.dart';
 import 'package:formation_flutter/screens/homepage/homepage_screen.dart';
 import 'package:formation_flutter/screens/product/product_page.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +13,11 @@ void main() {
 }
 
 GoRouter _router = GoRouter(
+  initialLocation: '/login',
   routes: [
     GoRoute(path: '/', builder: (_, _) => HomePage()),
+    GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+    GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
     GoRoute(
       path: '/product',
       builder: (_, GoRouterState state) =>
