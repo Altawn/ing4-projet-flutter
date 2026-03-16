@@ -19,16 +19,25 @@ class RegisterScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),
-              const Text(
-                'Inscription',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.blue,
-                ),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 2,
+                    child: const Text(
+                      'Inscription',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.blue,
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 44),
               AuthTextField(
                 hint: 'Adresse email',
                 icon: SvgPicture.asset(AppVectorialImages.icEmail),
@@ -39,12 +48,21 @@ class RegisterScreen extends StatelessWidget {
                 icon: SvgPicture.asset(AppVectorialImages.icPassword),
                 obscureText: true,
               ),
-              const SizedBox(height: 20),
-              AuthButton(
-                label: "S'inscrire",
-                onPressed: () {
-                  // TODO: logique d'inscription
-                },
+              const SizedBox(height: 40),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 2,
+                    child: AuthButton(
+                      label: "S'inscrire",
+                      onPressed: () {
+                        // TODO: logique d'inscription
+                      },
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
               ),
               const Spacer(),
             ],

@@ -20,14 +20,23 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),
-              const Text(
-                'Connexion',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.blue,
-                ),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 2,
+                    child: const Text(
+                      'Connexion',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.blue,
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
               ),
               const SizedBox(height: 44),
               AuthTextField(
@@ -41,23 +50,31 @@ class LoginScreen extends StatelessWidget {
                 obscureText: true,
               ),
               const SizedBox(height: 40),
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AuthButton(
-                      label: 'Créer un compte',
-                      onPressed: () => context.push('/register'),
+              Row(
+                children: [
+                  const Spacer(flex: 1),
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AuthButton(
+                          label: 'Créer un compte',
+                          onPressed: () => context.push('/register'),
+                        ),
+                        const SizedBox(height: 12),
+                        AuthButton(
+                          label: 'Se connecter',
+                          onPressed: () {
+                            // TODO: logique de connexion
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 12),
-                    AuthButton(
-                      label: 'Se connecter',
-                      onPressed: () {
-                        // TODO: logique de connexion
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
               ),
               const Spacer(),
             ],

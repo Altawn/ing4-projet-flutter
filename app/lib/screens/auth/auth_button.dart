@@ -20,7 +20,6 @@ class AuthButton extends StatelessWidget {
         elevation: 0,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             label,
@@ -30,7 +29,7 @@ class AuthButton extends StatelessWidget {
               color: AppColors.blue,
             ),
           ),
-          const SizedBox(width: 8),
+          const Spacer(),
           SizedBox(
             width: 18,
             height: 18,
