@@ -5,6 +5,7 @@ import 'package:formation_flutter/screens/product/states/empty/product_page_empt
 import 'package:formation_flutter/screens/product/states/error/product_page_error.dart';
 import 'package:formation_flutter/screens/product/states/success/product_page_body.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key, required this.barcode})
@@ -38,7 +39,7 @@ class ProductPage extends StatelessWidget {
               top: 0.0,
               start: 0.0,
               child: _HeaderIcon(
-                icon: AppIcons.close,
+                iconWidget: const Icon(AppIcons.close, color: Colors.white),
                 tooltip: materialLocalizations.closeButtonTooltip,
                 onPressed: Navigator.of(context).pop,
               ),
@@ -47,8 +48,13 @@ class ProductPage extends StatelessWidget {
               top: 0.0,
               end: 0.0,
               child: _HeaderIcon(
-                icon: AppIcons.share,
-                tooltip: materialLocalizations.shareButtonLabel,
+                iconWidget: SvgPicture.asset(
+                  'res/svg/Shape.svg',
+                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  width: 24.0,
+                  height: 24.0,
+                ),
+                tooltip: 'Ajouter aux favoris',
               ),
             ),
           ],
@@ -59,10 +65,10 @@ class ProductPage extends StatelessWidget {
 }
 
 class _HeaderIcon extends StatelessWidget {
-  const _HeaderIcon({required this.icon, required this.tooltip, this.onPressed})
+  const _HeaderIcon({required this.iconWidget, required this.tooltip, this.onPressed})
     : assert(tooltip.length > 0);
 
-  final IconData icon;
+  final Widget iconWidget;
   final String tooltip;
   final VoidCallback? onPressed;
 
@@ -85,16 +91,16 @@ class _HeaderIcon extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.0),
                 ),
                 child: DecoratedBox(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black26,
                         blurRadius: 10.0,
-                        offset: const Offset(0.0, 0.0),
+                        offset: Offset(0.0, 0.0),
                       ),
                     ],
                   ),
-                  child: Icon(icon, color: Colors.white),
+                  child: iconWidget,
                 ),
               ),
             ),
