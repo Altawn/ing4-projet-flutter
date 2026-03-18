@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:intl/intl.dart';
@@ -15,26 +14,29 @@ class ProductTab3 extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return DefaultTextStyle.merge(
-      style: TextStyle(color: AppColors.blue),
-      child: Table(
-        border: TableBorder.symmetric(
-          inside: BorderSide(color: AppColors.blue),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      child: DefaultTextStyle.merge(
+        style: const TextStyle(color: AppColors.blueDark, fontSize: 16),
+        child: Table(
+          border: const TableBorder(
+            horizontalInside: BorderSide(color: AppColors.grey1, width: 1.0),
+            verticalInside: BorderSide(color: AppColors.grey1, width: 1.0),
+          ),
+          columnWidths: const <int, TableColumnWidth>{
+            0: FlexColumnWidth(3),
+            1: FlexColumnWidth(2),
+            2: FlexColumnWidth(2),
+          },
+          children: _body(context, product.nutritionFacts!),
         ),
-        columnWidths: const <int, TableColumnWidth>{
-          0: FlexColumnWidth(3),
-          1: FlexColumnWidth(2),
-          2: FlexColumnWidth(2),
-        },
-        children: _body(context, product.nutritionFacts!),
       ),
     );
   }
 
   List<TableRow> _body(BuildContext context, NutritionFacts nutritionFacts) {
-    final AppLocalizations localizations = AppLocalizations.of(context)!;
     final NumberFormat numberFormat = NumberFormat.decimalPatternDigits(
-      locale: Localizations.localeOf(context).countryCode,
+      locale: Localizations.localeOf(context).countryCode ?? 'fr',
       decimalDigits: 1,
     );
 
@@ -43,12 +45,14 @@ class ProductTab3 extends StatelessWidget {
     rows.add(
       TableRow(
         children: <Widget>[
-          TableCell(child: SizedBox.shrink()),
+          const TableCell(child: SizedBox.shrink()),
           _NutritionFactsValue(
-            text: localizations.product_nutrition_facts_per_100g,
+            text: 'Pour 100g', // from mock directly or localizations
+            isHeader: true,
           ),
           _NutritionFactsValue(
-            text: localizations.product_nutrition_facts_per_serving,
+            text: 'Par part', // from mock
+            isHeader: true,
           ),
         ],
       ),
@@ -57,63 +61,65 @@ class ProductTab3 extends StatelessWidget {
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_energy,
-        nutritionFacts.energy,
+        'Énergie',
+        nutritionFacts.energy ?? nutritionFacts.calories,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_fat,
+        'Matières grasses',
         nutritionFacts.fat,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_saturated_fats,
+        'dont Acides gras saturés',
         nutritionFacts.saturatedFat,
+        indent: true,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_carbohydrates,
+        'Glucides',
         nutritionFacts.carbohydrate,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_sugars,
+        'dont Sucres',
         nutritionFacts.sugar,
+        indent: true,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_fiber,
+        'Fibres alimentaires',
         nutritionFacts.fiber,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_proteins,
+        'Protéines',
         nutritionFacts.proteins,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_salt,
+        'Sel',
         nutritionFacts.salt,
       ),
     );
     rows.add(
       _generateCell(
         numberFormat,
-        localizations.product_nutrition_facts_sodium,
+        'Sodium',
         nutritionFacts.sodium,
       ),
     );
@@ -124,15 +130,16 @@ class ProductTab3 extends StatelessWidget {
   TableRow? _generateCell(
     NumberFormat numberFormat,
     String label,
-    Nutriment? nutriment,
-  ) {
+    Nutriment? nutriment, {
+    bool indent = false,
+  }) {
     if (nutriment == null) {
       return null;
     }
 
     String formatField(dynamic field, String unit) {
       if (field == null) {
-        return '-';
+        return '?';
       } else if (field is num) {
         return '${numberFormat.format(field)} $unit';
       } else {
@@ -142,7 +149,7 @@ class ProductTab3 extends StatelessWidget {
 
     return TableRow(
       children: <Widget>[
-        _NutritionFactsTitle(text: label),
+        _NutritionFactsTitle(text: label, indent: indent),
         _NutritionFactsValue(
           text: formatField(nutriment.per100g, nutriment.unit),
         ),
@@ -155,35 +162,54 @@ class ProductTab3 extends StatelessWidget {
 }
 
 class _NutritionFactsValue extends StatelessWidget {
-  const _NutritionFactsValue({required this.text});
+  const _NutritionFactsValue({required this.text, this.isHeader = false});
 
   final String text;
+  final bool isHeader;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.symmetric(
-        horizontal: 4.0,
-        vertical: 6.0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 16.0,
       ),
-      child: Text(text, textAlign: TextAlign.center),
+      child: Text(
+        text, 
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: AppColors.blueDark,
+          fontWeight: isHeader ? FontWeight.normal : FontWeight.normal,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 }
 
 class _NutritionFactsTitle extends StatelessWidget {
-  const _NutritionFactsTitle({required this.text});
+  const _NutritionFactsTitle({required this.text, this.indent = false});
 
   final String text;
+  final bool indent;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.symmetric(
-        horizontal: 4.0,
-        vertical: 6.0,
+      padding: EdgeInsets.only(
+        left: indent ? 20.0 : 8.0,
+        right: 8.0,
+        top: 16.0,
+        bottom: 16.0,
       ),
-      child: Text(text, style: const TextStyle(fontWeight: FontWeight.w600)),
+      child: Text(
+        text, 
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.blueDark,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 }

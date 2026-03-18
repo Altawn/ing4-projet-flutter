@@ -13,14 +13,28 @@ class ProductTab0 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final Product product = context.read<Product>();
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        _Scores(),
-        Padding(
+        if (product.altName != null)
+          Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: _kHorizontalPadding,
+              end: _kHorizontalPadding,
+              bottom: 16.0,
+            ),
+            child: Text(
+              product.altName!,
+              style: context.theme.title2.copyWith(color: AppColors.grey2),
+            ),
+          ),
+        const _Scores(),
+        const Padding(
           padding: EdgeInsetsDirectional.symmetric(
             horizontal: _kHorizontalPadding,
-            vertical: 30.0,
+            vertical: 16.0,
           ),
           child: _Info(),
         ),
@@ -110,8 +124,8 @@ class _Nutriscore extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          AppLocalizations.of(context)!.nutriscore,
-          style: context.theme.title3,
+          'Nutri-Score',
+          style: context.theme.title3.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
         Image.asset(_findAssetName(), height: 42.0),
@@ -143,8 +157,8 @@ class _NovaGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          AppLocalizations.of(context)!.nova_group,
-          style: context.theme.title3,
+          'Groupe NOVA',
+          style: context.theme.title3.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
         Text(_findLabel(), style: const TextStyle(color: AppColors.grey2)),
@@ -177,14 +191,14 @@ class _GreenScore extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          AppLocalizations.of(context)!.greenscore,
-          style: context.theme.title3,
+          'EcoScore',
+          style: context.theme.title3.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5.0),
         Row(
           children: <Widget>[
             Icon(_findIcon(), color: _findIconColor()),
-            const SizedBox(width: 10.0),
+            const SizedBox(width: 8.0),
             Expanded(
               child: Text(
                 _findLabel(),
@@ -249,11 +263,11 @@ class _Info extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _ProductItemValue(
-          label: localizations.product_quantity,
+          label: 'Quantité',
           value: product.quantity ?? '-',
         ),
         _ProductItemValue(
-          label: localizations.product_countries,
+          label: 'Vendu',
           value: product.manufacturingCountries?.join(', ') ?? '-',
           includeDivider: false,
         ),
