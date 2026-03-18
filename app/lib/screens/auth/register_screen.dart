@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
       );
 
-      print('Register Success: ${response.data}');
+      debugPrint('Register Success: ${response.data}');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context.pushReplacement('/login');
       }
     } on DioException catch (e) {
-      print('Register Error: ${e.response?.statusCode} - ${e.response?.data}');
+      debugPrint('Register Error: ${e.response?.statusCode} - ${e.response?.data}');
       String message = 'Erreur lors de l\'inscription';
 
       if (e.response?.statusCode == 400) {

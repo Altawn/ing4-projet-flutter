@@ -6,6 +6,7 @@ import 'package:formation_flutter/screens/auth/login_screen.dart';
 import 'package:formation_flutter/screens/auth/register_screen.dart';
 import 'package:formation_flutter/screens/homepage/homepage_screen.dart';
 import 'package:formation_flutter/screens/product/product_page.dart';
+import 'package:formation_flutter/screens/product/scanner_screen.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
@@ -18,6 +19,7 @@ GoRouter _router = GoRouter(
     GoRoute(path: '/', builder: (_, _) => HomePage()),
     GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
     GoRoute(path: '/register', builder: (_, _) => const RegisterScreen()),
+    GoRoute(path: '/scanner', builder: (_, _) => const ScannerScreen()),
     GoRoute(
       path: '/product',
       builder: (_, GoRouterState state) =>

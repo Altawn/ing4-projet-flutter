@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
         data: {'identity': email, 'password': password},
       );
 
-      print('Success: ${response.data}');
+      debugPrint('Success: ${response.data}');
 
       if (response.statusCode == 200) {
         if (mounted) {
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } on DioException catch (e) {
-      print(
+      debugPrint(
         'Error during login: ${e.response?.statusCode} - ${e.response?.data}',
       );
       String message = 'Erreur lors de la connexion';
