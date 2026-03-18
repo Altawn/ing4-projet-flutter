@@ -6,5 +6,6 @@ class AppVectorialImages {
   static const String icEmail = 'res/svg/ic_email.svg';
   static const String icPassword = 'res/svg/ic_password.svg';
   static const String arrow = 'res/svg/arrow.svg';
-
+  static const String star = 'res/svg/star.svg';
+  static const String arrowInSquare = 'res/svg/arrow-in-square.svg';
 }

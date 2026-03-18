@@ -27,30 +27,32 @@ class HomePageEmpty extends StatelessWidget {
                 Text(
                   localizations.my_scans_screen_description,
                   textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 16,
+                  ),
                 ),
                 Spacer(flex: 5),
-                FractionallySizedBox(
-                  widthFactor: 0.5,
-                  child: TextButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.blue,
-                      backgroundColor: AppColors.yellow,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                TextButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.blue,
+                    backgroundColor: AppColors.yellow,
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                    ),
+                  ),
+                  onPressed: onScan,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        localizations.my_scans_screen_button.toUpperCase(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    onPressed: onScan,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text(
-                            localizations.my_scans_screen_button.toUpperCase(),
-                          ),
-                        ),
-                        const SizedBox(width: 10.0),
-                        Icon(Icons.arrow_forward_outlined),
-                      ],
-                    ),
+                      const SizedBox(width: 8.0),
+                      SvgPicture.asset(AppVectorialImages.arrow),
+                    ],
                   ),
                 ),
               ],
