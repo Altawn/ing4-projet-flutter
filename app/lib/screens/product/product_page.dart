@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:formation_flutter/model/favorites_manager.dart';
+import 'package:formation_flutter/model/scan_history.dart';
 import 'package:formation_flutter/res/app_icons.dart';
 import 'package:formation_flutter/screens/product/product_fetcher.dart';
 import 'package:formation_flutter/screens/product/states/empty/product_page_empty.dart';
@@ -19,7 +21,10 @@ class ProductPage extends StatelessWidget {
         MaterialLocalizations.of(context);
 
     return ChangeNotifierProvider<ProductFetcher>(
-      create: (_) => ProductFetcher(barcode: barcode),
+      create: (_) => ProductFetcher(
+        barcode: barcode,
+        scanHistoryManager: context.read<ScanHistoryManager>(),
+      ),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
@@ -47,19 +52,44 @@ class ProductPage extends StatelessWidget {
             PositionedDirectional(
               top: 0.0,
               end: 0.0,
-              child: _HeaderIcon(
-                iconWidget: SvgPicture.asset(
+              child: _FavoriteButton(barcode: barcode),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FavoriteButton extends StatelessWidget {
+  const _FavoriteButton({required this.barcode});
+
+  final String barcode;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer2<FavoritesManager, ProductFetcher>(
+      builder: (context, favManager, fetcher, _) {
+        final bool isFav = favManager.isFavorite(barcode);
+
+        return _HeaderIcon(
+          iconWidget: isFav
+              ? const Icon(Icons.star, color: Colors.white, size: 26.0)
+              : SvgPicture.asset(
                   'res/svg/Shape.svg',
                   colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                   width: 24.0,
                   height: 24.0,
                 ),
-                tooltip: 'Ajouter aux favoris',
-              ),
-            ),
-          ],
-        ),
-      ),
+          tooltip: isFav ? 'Retirer des favoris' : 'Ajouter aux favoris',
+          onPressed: () {
+            final state = fetcher.state;
+            if (state is ProductFetcherSuccess) {
+              favManager.toggleFavorite(state.product);
+            }
+          },
+        );
+      },
     );
   }
 }

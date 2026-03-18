@@ -1,90 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formation_flutter/model/favorites_manager.dart';
 import 'package:formation_flutter/model/product.dart';
-import 'package:formation_flutter/model/scan_history.dart';
-import 'package:formation_flutter/res/app_vectorial_images.dart';
 import 'package:formation_flutter/res/app_colors.dart';
-import 'package:formation_flutter/res/app_icons.dart';
-import 'package:formation_flutter/l10n/app_localizations.dart';
-import 'package:formation_flutter/screens/homepage/homepage_empty.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AppLocalizations localizations = AppLocalizations.of(context)!;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          localizations.my_scans_screen_title,
-          style: const TextStyle(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.blueDark),
+          onPressed: () => context.pop(),
+        ),
+        title: const Text(
+          'Mes favoris',
+          style: TextStyle(
             color: AppColors.blue,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: false,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _onScanButtonPressed(context),
-            icon: Icon(AppIcons.barcode, color: AppColors.blue),
-          ),
-          IconButton(
-            onPressed: () => context.push('/favorites'),
-            icon: SvgPicture.asset(
-              AppVectorialImages.star,
-              colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
-            ),
-          ),
-          IconButton(
-            onPressed: () => context.go('/login'),
-            icon: SvgPicture.asset(
-              AppVectorialImages.arrowInSquare,
-              colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
       ),
-      body: Consumer<ScanHistoryManager>(
-        builder: (context, history, _) {
-          if (history.isEmpty) {
-            return HomePageEmpty(onScan: () => _onScanButtonPressed(context));
+      body: Consumer<FavoritesManager>(
+        builder: (context, favManager, _) {
+          if (favManager.isEmpty) {
+            return const Center(
+              child: Text(
+                'Aucun favori pour le moment',
+                style: TextStyle(
+                  color: AppColors.grey2,
+                  fontSize: 16,
+                ),
+              ),
+            );
           }
-          return _ScanHistoryList(products: history.products);
+          return ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            itemCount: favManager.favorites.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+            itemBuilder: (context, index) {
+              return _FavoriteProductCard(product: favManager.favorites[index]);
+            },
+          );
         },
       ),
     );
   }
-
-  void _onScanButtonPressed(BuildContext context) {
-    context.push('/scanner');
-  }
 }
 
-class _ScanHistoryList extends StatelessWidget {
-  const _ScanHistoryList({required this.products});
-
-  final List<Product> products;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      itemCount: products.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12.0),
-      itemBuilder: (context, index) {
-        return _ProductCard(product: products[index]);
-      },
-    );
-  }
-}
-
-class _ProductCard extends StatelessWidget {
-  const _ProductCard({required this.product});
+class _FavoriteProductCard extends StatelessWidget {
+  const _FavoriteProductCard({required this.product});
 
   final Product product;
 
@@ -106,7 +75,6 @@ class _ProductCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Image du produit
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16.0),
@@ -133,7 +101,6 @@ class _ProductCard extends StatelessWidget {
                     ),
             ),
             const SizedBox(width: 16.0),
-            // Infos du produit
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),
@@ -214,7 +181,7 @@ class _NutriscoreChip extends StatelessWidget {
         const SizedBox(width: 6.0),
         Text(
           'Nutriscore : $label',
-          style: TextStyle(
+          style: const TextStyle(
             color: AppColors.blueDark,
             fontSize: 14,
             fontWeight: FontWeight.w500,
