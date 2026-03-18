@@ -6,6 +6,10 @@ import 'package:formation_flutter/screens/auth/auth_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:formation_flutter/res/app_vectorial_images.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formation_flutter/api/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'package:formation_flutter/model/scan_history.dart';
+import 'package:formation_flutter/model/favorites_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -58,7 +62,15 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint('Success: ${response.data}');
 
       if (response.statusCode == 200) {
+        AuthService().setTokenAndUserId(
+          response.data['token'],
+          response.data['record']['id'],
+        );
+
         if (mounted) {
+          // On recharge l'historique lié à CE compte via PocketBase !
+          Provider.of<ScanHistoryManager>(context, listen: false).fetchItems();
+          Provider.of<FavoritesManager>(context, listen: false).fetchFavorites();
           context.go('/');
         }
       }
