@@ -8,7 +8,6 @@ class ScanHistoryManager extends ChangeNotifier {
 
   List<Product> get products => List.unmodifiable(_products);
 
-  /// Charge depuis l'API et rafraichit la liste locale.
   Future<void> fetchItems() async {
     final fetchedProducts = await _repository.fetchProducts(onlyFavorites: false);
     _products.clear();
@@ -16,13 +15,11 @@ class ScanHistoryManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Ajoute un produit scanné en mémoire (instantané) et l'envoie en BDD (asynchrone).
   void addProduct(Product product) {
     _products.removeWhere((p) => p.barcode == product.barcode);
     _products.insert(0, product);
     notifyListeners();
     
-    // Synchro BDD en fond
     _repository.upsertProduct(product);
   }
 

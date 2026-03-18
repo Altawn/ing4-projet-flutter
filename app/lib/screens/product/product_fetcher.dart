@@ -21,7 +21,6 @@ class ProductFetcher extends ChangeNotifier {
     try {
       Product product = await OpenFoodFactsAPI().getProduct(_barcode);
       _state = ProductFetcherSuccess(product);
-      // Enregistrer dans l'historique des scans
       scanHistoryManager?.addProduct(product);
     } catch (error) {
       _state = ProductFetcherError(error);

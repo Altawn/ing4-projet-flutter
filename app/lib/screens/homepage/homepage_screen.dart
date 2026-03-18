@@ -9,6 +9,7 @@ import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/screens/homepage/homepage_empty.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:formation_flutter/api/auth_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,46 +18,49 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations localizations = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          localizations.my_scans_screen_title,
-          style: const TextStyle(
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: false,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _onScanButtonPressed(context),
-            icon: Icon(AppIcons.barcode, color: AppColors.blue),
-          ),
-          IconButton(
-            onPressed: () => context.push('/favorites'),
-            icon: SvgPicture.asset(
-              AppVectorialImages.star,
-              colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
+    return Consumer<ScanHistoryManager>(
+      builder: (context, history, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              localizations.my_scans_screen_title,
+              style: const TextStyle(
+                color: AppColors.blue,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            centerTitle: false,
+            actions: <Widget>[
+              if (!history.isEmpty)
+                IconButton(
+                  onPressed: () => _onScanButtonPressed(context),
+                  icon: Icon(AppIcons.barcode, color: AppColors.blue),
+                ),
+              IconButton(
+                onPressed: () => context.push('/favorites'),
+                icon: SvgPicture.asset(
+                  AppVectorialImages.star,
+                  colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  AuthService().logout();
+                  context.go('/login');
+                },
+                icon: SvgPicture.asset(
+                  AppVectorialImages.arrowInSquare,
+                  colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
           ),
-          IconButton(
-            onPressed: () => context.go('/login'),
-            icon: SvgPicture.asset(
-              AppVectorialImages.arrowInSquare,
-              colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: Consumer<ScanHistoryManager>(
-        builder: (context, history, _) {
-          if (history.isEmpty) {
-            return HomePageEmpty(onScan: () => _onScanButtonPressed(context));
-          }
-          return _ScanHistoryList(products: history.products);
-        },
-      ),
+          body: history.isEmpty
+              ? HomePageEmpty(onScan: () => _onScanButtonPressed(context))
+              : _ScanHistoryList(products: history.products),
+        );
+      },
     );
   }
 
@@ -106,7 +110,6 @@ class _ProductCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Image du produit
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16.0),
@@ -133,7 +136,6 @@ class _ProductCard extends StatelessWidget {
                     ),
             ),
             const SizedBox(width: 16.0),
-            // Infos du produit
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),

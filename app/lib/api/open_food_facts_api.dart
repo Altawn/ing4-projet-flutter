@@ -4,7 +4,6 @@ import 'package:formation_flutter/model/product.dart';
 class OpenFoodFactsAPI {
   static const String _baseUrl = 'https://api.formation-flutter.fr/v2';
 
-  // Singleton
   static final OpenFoodFactsAPI _instance = OpenFoodFactsAPI._internal();
 
   factory OpenFoodFactsAPI() => _instance;

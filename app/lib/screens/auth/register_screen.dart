@@ -64,7 +64,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Compte créé avec succès !')),
         );
-        // Après inscription, on redirige vers le login
         context.pushReplacement('/login');
       }
     } on DioException catch (e) {

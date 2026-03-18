@@ -12,7 +12,6 @@ class FavoritesManager extends ChangeNotifier {
     return _favorites.any((p) => p.barcode == barcode);
   }
 
-  /// Charge depuis l'API uniquement les articles likés et rafraichit la liste locale.
   Future<void> fetchFavorites() async {
     final fetchedFavorites = await _repository.fetchProducts(onlyFavorites: true);
     _favorites.clear();
@@ -20,7 +19,6 @@ class FavoritesManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Bascule instantanément le statut de favori et l'envoie sur PocketBase.
   void toggleFavorite(Product product) {
     final bool willBeFavorite = !isFavorite(product.barcode);
 
@@ -31,7 +29,6 @@ class FavoritesManager extends ChangeNotifier {
     }
     notifyListeners();
 
-    // Synchro BDD en fond avec isLiked flaggé
     _repository.upsertProduct(product, isLiked: willBeFavorite);
   }
 

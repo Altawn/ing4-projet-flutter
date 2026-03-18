@@ -72,7 +72,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 isParsing = true;
               });
               
-              // Aller sur la page de produit avec le code-barres lu
               context.pushReplacement('/product', extra: barcode);
             }
           }

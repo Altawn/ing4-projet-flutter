@@ -46,8 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      // PocketBase URL
-      // 10.0.2.2 for Android Emulator, localhost for Windows/Web/iOS
       const baseUrl = String.fromEnvironment(
         'PB_URL',
         defaultValue: 'http://127.0.0.1:8090',
@@ -68,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         if (mounted) {
-          // On recharge l'historique lié à CE compte via PocketBase !
           Provider.of<ScanHistoryManager>(context, listen: false).fetchItems();
           Provider.of<FavoritesManager>(context, listen: false).fetchFavorites();
           context.go('/');

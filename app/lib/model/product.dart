@@ -13,7 +13,6 @@ class Product {
   final ProductGreenScore? greenScore;
   final List<String>? ingredients;
 
-  // Eg: "Sucre, <span class=\"allergen\">gluten de blé</span>"
   final String? ingredientsWithAllergens;
   final List<String>? traces;
   final List<String>? allergens;

@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/api/auth_service.dart';
 
-/// Repository chargé de faire l'interface entre l'application et la base de données PocketBase.
-/// On centralise ici tout le code réseau, ce qui rend l'application bien plus "propre" (Clean Architecture).
 class PocketBaseRepository {
   static const String _defaultUrl = 'http://127.0.0.1:8090';
 
@@ -13,13 +11,11 @@ class PocketBaseRepository {
 
   final Dio _dio = Dio();
 
-  // Injecte automatiquement le Bearer token d'authentification pour sécuriser les requêtes
   Options _authOptions() {
     final token = AuthService().token;
     return Options(headers: {'Authorization': 'Bearer $token'});
   }
 
-  // --- GET : Récupère la liste des produits de l'utilisateur
   Future<List<Product>> fetchProducts({bool onlyFavorites = false}) async {
     final userId = AuthService().userId;
     if (userId == null) return [];
@@ -48,13 +44,11 @@ class PocketBaseRepository {
     return [];
   }
 
-  // --- POST/PATCH : Enregistre ou met à jour un produit
   Future<void> upsertProduct(Product product, {bool? isLiked}) async {
     final userId = AuthService().userId;
     if (userId == null) return;
 
     try {
-      // Vérification si le produit existe déjà
       final existingResponse = await _dio.get(
         _recordsUrl,
         options: _authOptions(),
@@ -78,11 +72,9 @@ class PocketBaseRepository {
       }
 
       if (existingId != null) {
-        // Le produit est déjà là : on fait simplement un PATCH (mise à jour)
         final patchData = isLiked != null ? {'is_liked': isLiked} : data;
         await _dio.patch('$_recordsUrl/$existingId', options: _authOptions(), data: patchData);
       } else {
-        // Nouveau produit, on l'invente avec POST
         await _dio.post(_recordsUrl, options: _authOptions(), data: data);
       }
     } catch (e) {
@@ -90,7 +82,6 @@ class PocketBaseRepository {
     }
   }
 
-  // Permet de mapper le retour JSON brut de PocketBase vers notre Objet métier `Product`
   Product _mapJsonToProduct(Map<String, dynamic> item) {
     return Product(
       barcode: item['gtin'] ?? '',
