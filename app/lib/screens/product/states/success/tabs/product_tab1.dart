@@ -29,9 +29,14 @@ class ProductTab1 extends StatelessWidget {
       width: double.infinity,
       color: AppColors.grey1,
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-      child: Text(
-        title,
-        style: context.theme.title3.copyWith(fontWeight: FontWeight.bold),
+      child: Center(
+        child: Text(
+          title,
+          style: context.theme.title3.copyWith(
+            fontWeight: FontWeight.bold,
+            color: AppColors.blueDark,
+          ),
+        ),
       ),
     );
   }
@@ -40,7 +45,7 @@ class ProductTab1 extends StatelessWidget {
     if (product.ingredients == null || product.ingredients!.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-        child: Text('Aucune', style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.normal)),
+        child: Text('Aucune', style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.normal)),
       );
     }
     
@@ -51,12 +56,12 @@ class ProductTab1 extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
           child: Text(
             product.ingredients![i],
-            style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+            style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ),
       );
       if (i < product.ingredients!.length - 1) {
-        items.add(const Divider(height: 1, indent: 20, endIndent: 20));
+        items.add(const Divider(height: 1, indent: 20, endIndent: 20, color: AppColors.grey1));
       }
     }
     
@@ -70,14 +75,14 @@ class ProductTab1 extends StatelessWidget {
     if (items == null || items.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-        child: Text(emptyText, style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text(emptyText, style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
       );
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
       child: Text(
         items.join(', '),
-        style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+        style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -86,7 +91,7 @@ class ProductTab1 extends StatelessWidget {
     if (additives == null || additives.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-        child: Text('Aucune', style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
+        child: Text('Aucune', style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.bold)),
       );
     }
     
@@ -98,18 +103,22 @@ class ProductTab1 extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(entry.key, style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.bold)),
-              const SizedBox(width: 8.0),
               Expanded(
+                flex: 4,
+                child: Text(entry.key, style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.blueDark)),
+              ),
+              Expanded(
+                flex: 6,
                 child: Text(
                   entry.value, 
-                  style: context.theme.title1.copyWith(fontSize: 16, fontWeight: FontWeight.normal, color: AppColors.grey3)
+                  style: context.theme.title1.copyWith(fontSize: 14, fontWeight: FontWeight.normal, color: AppColors.grey3)
                 )
               ),
             ],
           ),
         ),
       );
+      items.add(const Divider(height: 1, indent: 20, endIndent: 20, color: AppColors.grey1));
     }
     
     return Column(
