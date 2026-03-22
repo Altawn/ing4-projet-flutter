@@ -46,18 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      const baseUrl = String.fromEnvironment(
-        'PB_URL',
-        defaultValue: 'http://127.0.0.1:8090',
-      );
-
       final dio = Dio();
       final response = await dio.post(
-        '$baseUrl/api/collections/users/auth-with-password',
+        '${AuthService.pbBaseUrl}/api/collections/users/auth-with-password',
         data: {'identity': email, 'password': password},
       );
-
-      debugPrint('Success: ${response.data}');
 
       if (response.statusCode == 200) {
         AuthService().setTokenAndUserId(

@@ -10,6 +10,8 @@ import 'package:formation_flutter/screens/homepage/favorites_screen.dart';
 import 'package:formation_flutter/screens/homepage/homepage_screen.dart';
 import 'package:formation_flutter/screens/product/product_page.dart';
 import 'package:formation_flutter/screens/product/scanner_screen.dart';
+import 'package:formation_flutter/screens/product/recall_page.dart';
+import 'package:formation_flutter/model/recall.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +31,16 @@ GoRouter _router = GoRouter(
       path: '/product',
       builder: (_, GoRouterState state) =>
           ProductPage(barcode: state.extra as String),
+    ),
+    GoRoute(
+      path: '/recall',
+      builder: (_, GoRouterState state) {
+        final Map<String, dynamic> extras = state.extra as Map<String, dynamic>;
+        return RecallPage(
+          recall: extras['recall'] as ProductRecall,
+          productImage: extras['productImage'] as String?,
+        );
+      },
     ),
   ],
 );

@@ -4,6 +4,8 @@ import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:formation_flutter/res/app_icons.dart';
 import 'package:formation_flutter/res/app_theme_extension.dart';
+import 'package:formation_flutter/model/recall.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ProductTab0 extends StatelessWidget {
@@ -30,6 +32,7 @@ class ProductTab0 extends StatelessWidget {
               style: context.theme.title2.copyWith(color: AppColors.grey2),
             ),
           ),
+        if (product.recall != null) _RecallBanner(recall: product.recall!),
         const _Scores(),
         const Padding(
           padding: EdgeInsetsDirectional.symmetric(
@@ -368,3 +371,63 @@ class _ProductBubble extends StatelessWidget {
 }
 
 enum _ProductBubbleValue { on, off }
+
+class _RecallBanner extends StatelessWidget {
+  const _RecallBanner({required this.recall});
+
+  final ProductRecall recall;
+
+  @override
+  Widget build(BuildContext context) {
+    final Product product = context.read<Product>();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+      child: InkWell(
+        onTap: () => context.push('/recall', extra: {
+          'recall': recall,
+          'productImage': product.picture,
+        }),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFADA8).withOpacity(0.9),
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.report_gmailerrorred_rounded,
+                color: Color(0xFFD32F2F),
+                size: 28,
+              ),
+              const SizedBox(width: 12.0),
+              const Expanded(
+                child: Text(
+                  'Ce produit fait l\'objet d\'un rappel produit',
+                  style: TextStyle(
+                    color: Color(0xFFD32F2F),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Color(0xFFD32F2F),
+                size: 16,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

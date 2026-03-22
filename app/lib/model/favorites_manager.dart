@@ -5,6 +5,7 @@ import 'package:formation_flutter/api/auth_service.dart';
 
 class FavoritesManager extends ChangeNotifier {
   final List<Product> _favorites = [];
+  final Dio _dio = Dio();
 
   List<Product> get favorites => List.unmodifiable(_favorites);
 
@@ -14,13 +15,11 @@ class FavoritesManager extends ChangeNotifier {
       final userId = AuthService().userId;
       if (token == null || userId == null) return;
 
-      const baseUrl = String.fromEnvironment('PB_URL', defaultValue: 'http://127.0.0.1:8090');
-      final dio = Dio();
-      final response = await dio.get(
-        '$baseUrl/api/collections/products/records',
+      final response = await _dio.get(
+        '${AuthService.pbBaseUrl}/api/collections/products/records',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         queryParameters: {
-          'sort': '-created',
+          'sort': '-last_scanned_at',
           'filter': 'user_id ~ "$userId" && is_liked = true',
         },
       );
@@ -28,14 +27,13 @@ class FavoritesManager extends ChangeNotifier {
       if (response.statusCode == 200) {
         final items = response.data['items'] as List;
         _favorites.clear();
+        final seenBarcodes = <String>{};
         for (var item in items) {
-          _favorites.add(Product(
-             barcode: item['gtin'] ?? '',
-             name: item['libelle'],
-             brands: [(item['marque_produit'] ?? '')],
-             picture: item['picture'],
-             nutriScore: _parseNutriscore(item['nutriscore']),
-          ));
+          final barcode = item['gtin'] ?? '';
+          if (!seenBarcodes.contains(barcode)) {
+            seenBarcodes.add(barcode);
+            _favorites.add(Product.fromPocketBase(item));
+          }
         }
         notifyListeners();
       }
@@ -44,17 +42,7 @@ class FavoritesManager extends ChangeNotifier {
     }
   }
 
-  ProductNutriScore _parseNutriscore(String? val) {
-    if (val == null) return ProductNutriScore.unknown;
-    switch (val.toUpperCase()) {
-      case 'A': return ProductNutriScore.A;
-      case 'B': return ProductNutriScore.B;
-      case 'C': return ProductNutriScore.C;
-      case 'D': return ProductNutriScore.D;
-      case 'E': return ProductNutriScore.E;
-      default: return ProductNutriScore.unknown;
-    }
-  }
+
 
   bool isFavorite(String barcode) {
     return _favorites.any((p) => p.barcode == barcode);
@@ -79,11 +67,8 @@ class FavoritesManager extends ChangeNotifier {
       final userId = AuthService().userId;
       if (token == null || userId == null) return;
 
-      const baseUrl = String.fromEnvironment('PB_URL', defaultValue: 'http://127.0.0.1:8090');
-      final dio = Dio();
-
-      final existingResponse = await dio.get(
-        '$baseUrl/api/collections/products/records',
+      final existingResponse = await _dio.get(
+        '${AuthService.pbBaseUrl}/api/collections/products/records',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         queryParameters: {'filter': 'gtin = "${product.barcode}"'},
       );
@@ -91,14 +76,14 @@ class FavoritesManager extends ChangeNotifier {
       final items = existingResponse.data['items'] as List;
 
       if (items.isNotEmpty) {
-        await dio.patch(
-          '$baseUrl/api/collections/products/records/${items.first['id']}',
+        await _dio.patch(
+          '${AuthService.pbBaseUrl}/api/collections/products/records/${items.first['id']}',
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data: {'is_liked': isLiked},
         );
       } else {
-        await dio.post(
-          '$baseUrl/api/collections/products/records',
+        await _dio.post(
+          '${AuthService.pbBaseUrl}/api/collections/products/records',
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data: {
             'gtin': product.barcode,

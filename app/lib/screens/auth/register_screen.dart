@@ -5,6 +5,7 @@ import 'package:formation_flutter/res/app_vectorial_images.dart';
 import 'package:formation_flutter/screens/auth/auth_button.dart';
 import 'package:formation_flutter/screens/auth/auth_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:formation_flutter/api/auth_service.dart';
 import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -42,14 +43,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     try {
-      const baseUrl = String.fromEnvironment(
-        'PB_URL',
-        defaultValue: 'http://127.0.0.1:8090',
-      );
-
       final dio = Dio();
       final response = await dio.post(
-        '$baseUrl/api/collections/users/records',
+        '${AuthService.pbBaseUrl}/api/collections/users/records',
         data: {
           'email': email,
           'password': password,
@@ -57,8 +53,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'emailVisibility': true,
         },
       );
-
-      debugPrint('Register Success: ${response.data}');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

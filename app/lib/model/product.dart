@@ -1,3 +1,5 @@
+import 'package:formation_flutter/model/recall.dart';
+
 // ignore_for_file: constant_identifier_names
 class Product {
   final String barcode;
@@ -20,6 +22,7 @@ class Product {
   final NutrientLevels? nutrientLevels;
   final NutritionFacts? nutritionFacts;
   final bool? ingredientsFromPalmOil;
+  final ProductRecall? recall;
   final ProductAnalysis? containsPalmOil;
   final ProductAnalysis? isVegan;
   final ProductAnalysis? isVegetarian;
@@ -47,7 +50,63 @@ class Product {
     this.containsPalmOil,
     this.isVegan,
     this.isVegetarian,
+    this.recall,
   });
+
+  Product copyWith({
+    String? barcode,
+    String? name,
+    String? altName,
+    String? picture,
+    String? quantity,
+    List<String>? brands,
+    List<String>? manufacturingCountries,
+    ProductNutriScore? nutriScore,
+    ProductNutriScoreLevels? nutriScoreLevels,
+    ProductNovaScore? novaScore,
+    ProductGreenScore? greenScore,
+    List<String>? ingredients,
+    String? ingredientsWithAllergens,
+    List<String>? traces,
+    List<String>? allergens,
+    Map<String, String>? additives,
+    NutrientLevels? nutrientLevels,
+    NutritionFacts? nutritionFacts,
+    bool? ingredientsFromPalmOil,
+    ProductAnalysis? containsPalmOil,
+    ProductAnalysis? isVegan,
+    ProductAnalysis? isVegetarian,
+    ProductRecall? recall,
+  }) {
+    return Product(
+      barcode: barcode ?? this.barcode,
+      name: name ?? this.name,
+      altName: altName ?? this.altName,
+      picture: picture ?? this.picture,
+      quantity: quantity ?? this.quantity,
+      brands: brands ?? this.brands,
+      manufacturingCountries:
+          manufacturingCountries ?? this.manufacturingCountries,
+      nutriScore: nutriScore ?? this.nutriScore,
+      nutriScoreLevels: nutriScoreLevels ?? this.nutriScoreLevels,
+      novaScore: novaScore ?? this.novaScore,
+      greenScore: greenScore ?? this.greenScore,
+      ingredients: ingredients ?? this.ingredients,
+      ingredientsWithAllergens:
+          ingredientsWithAllergens ?? this.ingredientsWithAllergens,
+      traces: traces ?? this.traces,
+      allergens: allergens ?? this.allergens,
+      additives: additives ?? this.additives,
+      nutrientLevels: nutrientLevels ?? this.nutrientLevels,
+      nutritionFacts: nutritionFacts ?? this.nutritionFacts,
+      ingredientsFromPalmOil:
+          ingredientsFromPalmOil ?? this.ingredientsFromPalmOil,
+      containsPalmOil: containsPalmOil ?? this.containsPalmOil,
+      isVegan: isVegan ?? this.isVegan,
+      isVegetarian: isVegetarian ?? this.isVegetarian,
+      recall: recall ?? this.recall,
+    );
+  }
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -59,7 +118,7 @@ class Product {
       brands: (json['brands'] as List<dynamic>?)?.cast<String>(),
       manufacturingCountries:
           (json['manufacturingCountries'] as List<dynamic>?)?.cast<String>(),
-      nutriScore: _parseNutriScore(json['nutriScore']),
+      nutriScore: parseNutriScore(json['nutriScore']),
       nutriScoreLevels: json['levels'] != null
           ? ProductNutriScoreLevels.fromJson(json['levels'])
           : null,
@@ -85,10 +144,22 @@ class Product {
           ProductAnalysis.fromString(json['analysis']?['palmOil']),
       isVegan: ProductAnalysis.fromString(json['analysis']?['vegan']),
       isVegetarian: ProductAnalysis.fromString(json['analysis']?['vegetarian']),
+      recall: json['recall'] != null ? ProductRecall.fromJson(json['recall']) : null,
     );
   }
 
-  static ProductNutriScore _parseNutriScore(dynamic value) {
+  factory Product.fromPocketBase(Map<String, dynamic> json) {
+    return Product(
+      barcode: json['gtin'] ?? '',
+      name: json['libelle'] as String?,
+      brands: [(json['marque_produit'] ?? '')],
+      picture: json['picture'] as String?,
+      nutriScore: parseNutriScore(json['nutriscore']),
+      recall: json['recall'] != null ? ProductRecall.fromPocketBase(json['recall']) : null,
+    );
+  }
+
+  static ProductNutriScore parseNutriScore(dynamic value) {
     return switch (value?.toString().toUpperCase()) {
       'A' => ProductNutriScore.A,
       'B' => ProductNutriScore.B,

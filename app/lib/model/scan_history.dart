@@ -5,6 +5,7 @@ import 'package:formation_flutter/api/auth_service.dart';
 
 class ScanHistoryManager extends ChangeNotifier {
   final List<Product> _products = [];
+  final Dio _dio = Dio();
 
   List<Product> get products => List.unmodifiable(_products);
 
@@ -14,13 +15,11 @@ class ScanHistoryManager extends ChangeNotifier {
       final userId = AuthService().userId;
       if (token == null || userId == null) return;
 
-      const baseUrl = String.fromEnvironment('PB_URL', defaultValue: 'http://127.0.0.1:8090');
-      final dio = Dio();
-      final response = await dio.get(
-        '$baseUrl/api/collections/products/records',
+      final response = await _dio.get(
+        '${AuthService.pbBaseUrl}/api/collections/products/records',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         queryParameters: {
-          'sort': '-created',
+          'sort': '-last_scanned_at',
           'filter': 'user_id ~ "$userId"',
         },
       );
@@ -28,14 +27,13 @@ class ScanHistoryManager extends ChangeNotifier {
       if (response.statusCode == 200) {
         final items = response.data['items'] as List;
         _products.clear();
+        final seenBarcodes = <String>{};
         for (var item in items) {
-          _products.add(Product(
-             barcode: item['gtin'] ?? '',
-             name: item['libelle'],
-             brands: [(item['marque_produit'] ?? '')],
-             picture: item['picture'],
-             nutriScore: _parseNutriscore(item['nutriscore']),
-          ));
+          final barcode = item['gtin'] ?? '';
+          if (!seenBarcodes.contains(barcode)) {
+            seenBarcodes.add(barcode);
+            _products.add(Product.fromPocketBase(item));
+          }
         }
         notifyListeners();
       }
@@ -44,17 +42,7 @@ class ScanHistoryManager extends ChangeNotifier {
     }
   }
 
-  ProductNutriScore _parseNutriscore(String? val) {
-    if (val == null) return ProductNutriScore.unknown;
-    switch (val.toUpperCase()) {
-      case 'A': return ProductNutriScore.A;
-      case 'B': return ProductNutriScore.B;
-      case 'C': return ProductNutriScore.C;
-      case 'D': return ProductNutriScore.D;
-      case 'E': return ProductNutriScore.E;
-      default: return ProductNutriScore.unknown;
-    }
-  }
+
 
   void addProduct(Product product) {
     _products.removeWhere((p) => p.barcode == product.barcode);
@@ -70,11 +58,8 @@ class ScanHistoryManager extends ChangeNotifier {
       final userId = AuthService().userId;
       if (token == null || userId == null) return;
 
-      const baseUrl = String.fromEnvironment('PB_URL', defaultValue: 'http://127.0.0.1:8090');
-      final dio = Dio();
-
-      final existingResponse = await dio.get(
-        '$baseUrl/api/collections/products/records',
+      final existingResponse = await _dio.get(
+        '${AuthService.pbBaseUrl}/api/collections/products/records',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         queryParameters: {'filter': 'gtin = "${product.barcode}"'},
       );
@@ -90,14 +75,14 @@ class ScanHistoryManager extends ChangeNotifier {
       };
 
       if (items.isNotEmpty) {
-        await dio.patch(
-          '$baseUrl/api/collections/products/records/${items.first['id']}',
+        await _dio.patch(
+          '${AuthService.pbBaseUrl}/api/collections/products/records/${items.first['id']}',
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data: data,
         );
       } else {
-        await dio.post(
-          '$baseUrl/api/collections/products/records',
+        await _dio.post(
+          '${AuthService.pbBaseUrl}/api/collections/products/records',
           options: Options(headers: {'Authorization': 'Bearer $token'}),
           data: data,
         );
