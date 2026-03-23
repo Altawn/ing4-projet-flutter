@@ -16,7 +16,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Vous n\'avez pas encore scanné de produit';
 
   @override
-  String get my_scans_screen_button => 'Commencer';
+  String get my_scans_screen_button => 'COMMENCER';
 
   @override
   String get nova_group => 'Groupe NOVA';

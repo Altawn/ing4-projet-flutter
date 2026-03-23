@@ -21,40 +21,72 @@ class HomePage extends StatelessWidget {
     return Consumer<ScanHistoryManager>(
       builder: (context, history, _) {
         return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              localizations.my_scans_screen_title,
-              style: const TextStyle(
-                color: AppColors.blue,
-                fontWeight: FontWeight.bold,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(54.0),
+            child: Container(
+              child: AppBar(
+                title: Text(
+                  localizations.my_scans_screen_title,
+                  style: const TextStyle(
+                    color: AppColors.blue,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Avenir',
+                    fontSize: 17,
+                    letterSpacing: -0.41,
+                  ),
+                ),
+                centerTitle: false,
+                titleSpacing: 13.0, // 13px padding from left
+                elevation: 0,
+                backgroundColor: AppColors.white,
+                toolbarHeight: 54, // The bottom section height
+                actions: <Widget>[
+                  if (!history.isEmpty)
+                    IconButton(
+                      onPressed: () => _onScanButtonPressed(context),
+                      iconSize: 23,
+                      icon: Icon(AppIcons.barcode, color: AppColors.blue),
+                    ),
+                  IconButton(
+                    onPressed: () => context.push('/favorites'),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: SizedBox(
+                      width: 23,
+                      height: 23,
+                      child: SvgPicture.asset(
+                        AppVectorialImages.star,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.blue,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  IconButton(
+                    onPressed: () {
+                      AuthService().logout();
+                      context.go('/login');
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: SizedBox(
+                      width: 23,
+                      height: 23,
+                      child: SvgPicture.asset(
+                        AppVectorialImages.arrowInSquare,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.blue,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 15), // 15px padding from right
+                ],
               ),
             ),
-            centerTitle: false,
-            actions: <Widget>[
-              if (!history.isEmpty)
-                IconButton(
-                  onPressed: () => _onScanButtonPressed(context),
-                  icon: Icon(AppIcons.barcode, color: AppColors.blue),
-                ),
-              IconButton(
-                onPressed: () => context.push('/favorites'),
-                icon: SvgPicture.asset(
-                  AppVectorialImages.star,
-                  colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  AuthService().logout();
-                  context.go('/login');
-                },
-                icon: SvgPicture.asset(
-                  AppVectorialImages.arrowInSquare,
-                  colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
           ),
           body: history.isEmpty
               ? HomePageEmpty(onScan: () => _onScanButtonPressed(context))
@@ -125,20 +157,29 @@ class _ProductCard extends StatelessWidget {
                         width: 120,
                         height: 120,
                         color: AppColors.grey1,
-                        child: const Icon(Icons.image_not_supported, color: AppColors.grey2),
+                        child: const Icon(
+                          Icons.image_not_supported,
+                          color: AppColors.grey2,
+                        ),
                       ),
                     )
                   : Container(
                       width: 120,
                       height: 120,
                       color: AppColors.grey1,
-                      child: const Icon(Icons.image_not_supported, color: AppColors.grey2),
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        color: AppColors.grey2,
+                      ),
                     ),
             ),
             const SizedBox(width: 16.0),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 4.0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -208,10 +249,7 @@ class _NutriscoreChip extends StatelessWidget {
         Container(
           width: 14,
           height: 14,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 6.0),
         Text(

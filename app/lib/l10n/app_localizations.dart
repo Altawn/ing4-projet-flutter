@@ -109,7 +109,7 @@ abstract class AppLocalizations {
   /// No description provided for @my_scans_screen_button.
   ///
   /// In fr, this message translates to:
-  /// **'Commencer'**
+  /// **'COMMENCER'**
   String get my_scans_screen_button;
 
   /// No description provided for @nova_group.
