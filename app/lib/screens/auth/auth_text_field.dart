@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/res/app_colors.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class AuthTextField extends StatelessWidget {
   const AuthTextField({
@@ -18,31 +19,38 @@ class AuthTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 351,
-      height: 44,
+      width: AppResponsive.w(context, 351),
+      height: AppResponsive.h(context, 44),
       child: TextField(
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: AppColors.grey3,
             fontFamily: 'Avenir',
-            fontSize: 15,
+            fontSize: AppResponsive.sp(context, 15),
             fontWeight: FontWeight.w500,
           ),
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(AppResponsive.w(context, 12.0)),
             child: Center(
               widthFactor: 1,
               heightFactor: 1,
-              child: SizedBox(width: 20, height: 20, child: icon),
+              child: SizedBox(
+                width: AppResponsive.w(context, 20),
+                height: AppResponsive.h(context, 20),
+                child: icon,
+              ),
             ),
           ),
           filled: true,
           fillColor: AppColors.white,
           isDense: true,
-          contentPadding: const EdgeInsets.only(left: 0, right: 12),
+          contentPadding: EdgeInsets.only(
+            left: 0,
+            right: AppResponsive.w(context, 12),
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: AppColors.grey2),

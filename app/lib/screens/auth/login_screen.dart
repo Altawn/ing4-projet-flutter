@@ -10,6 +10,7 @@ import 'package:formation_flutter/api/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:formation_flutter/model/scan_history.dart';
 import 'package:formation_flutter/model/favorites_manager.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -105,11 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const Spacer(),
               Center(
-                child: const Text(
+                child: Text(
                   'Connexion',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: AppResponsive.sp(context, 20),
                     fontWeight: FontWeight.w800,
                     fontFamily: 'Avenir',
                     color: AppColors.blue,
@@ -117,20 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 79),
+              SizedBox(height: AppResponsive.h(context, 79)),
               AuthTextField(
                 controller: _emailController,
                 hint: 'Adresse email',
                 icon: SvgPicture.asset(AppVectorialImages.icEmail),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppResponsive.h(context, 12)),
               AuthTextField(
                 controller: _passwordController,
                 hint: 'Mot de passe',
                 icon: SvgPicture.asset(AppVectorialImages.icPassword),
                 obscureText: true,
               ),
-              const SizedBox(height: 79),
+              SizedBox(height: AppResponsive.h(context, 79)),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -138,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     label: 'Créer un compte',
                     onPressed: () => context.push('/register'),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: AppResponsive.h(context, 12)),
                   _isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : AuthButton(label: 'Se connecter', onPressed: _login),

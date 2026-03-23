@@ -7,6 +7,7 @@ import 'package:formation_flutter/screens/auth/auth_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formation_flutter/api/auth_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -95,17 +96,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppResponsive.w(context, 12.0),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
               Center(
-                child: const Text(
+                child: Text(
                   'Inscription',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: AppResponsive.sp(context, 20),
                     fontWeight: FontWeight.w800,
                     fontFamily: 'Avenir',
                     color: AppColors.blue,
@@ -113,20 +116,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 79),
+              SizedBox(height: AppResponsive.h(context, 79)),
               AuthTextField(
                 controller: _emailController,
                 hint: 'Adresse email',
                 icon: SvgPicture.asset(AppVectorialImages.icEmail),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: AppResponsive.h(context, 12)),
               AuthTextField(
                 controller: _passwordController,
                 hint: 'Mot de passe',
                 icon: SvgPicture.asset(AppVectorialImages.icPassword),
                 obscureText: true,
               ),
-              const SizedBox(height: 79),
+              SizedBox(height: AppResponsive.h(context, 79)),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

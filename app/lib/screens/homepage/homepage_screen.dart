@@ -11,6 +11,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:formation_flutter/api/auth_service.dart';
 
+import 'package:formation_flutter/res/app_responsive.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -106,9 +108,14 @@ class _ScanHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      padding: const EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        top: 13.0,
+        bottom: 40.0,
+      ),
       itemCount: products.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12.0),
+      separatorBuilder: (_, __) => const SizedBox(height: 47.0),
       itemBuilder: (context, index) {
         return _ProductCard(product: products[index]);
       },
@@ -126,88 +133,129 @@ class _ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push('/product', extra: product.barcode),
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(20),
-              blurRadius: 12.0,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
+        height: AppResponsive.h(context, 108 + 23),
+        alignment: Alignment.bottomCenter,
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16.0),
-                bottomLeft: Radius.circular(16.0),
+            // The Card Background
+            Container(
+              height: AppResponsive.h(context, 108),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.14),
+                    blurRadius: AppResponsive.w(context, 20.0),
+                    offset: Offset(0, AppResponsive.h(context, 5)),
+                  ),
+                ],
               ),
-              child: product.picture != null
-                  ? Image.network(
-                      product.picture!,
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        width: 120,
-                        height: 120,
-                        color: AppColors.grey1,
-                        child: const Icon(
-                          Icons.image_not_supported,
-                          color: AppColors.grey2,
-                        ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: AppResponsive.w(context, 113 + 18 + 12),
+                  ), // Space for the floating image
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppResponsive.h(context, 16.0),
+                        horizontal: AppResponsive.w(context, 4.0),
                       ),
-                    )
-                  : Container(
-                      width: 120,
-                      height: 120,
-                      color: AppColors.grey1,
-                      child: const Icon(
-                        Icons.image_not_supported,
-                        color: AppColors.grey2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: AppResponsive.w(context, 170),
+                            height: AppResponsive.h(context, 22),
+                            child: Text(
+                              product.name ?? '-',
+                              style: TextStyle(
+                                color: AppColors.blue,
+                                fontWeight: FontWeight.w800,
+                                fontFamily: 'Avenir',
+                                fontSize: AppResponsive.sp(context, 17),
+                                letterSpacing: -0.41,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(height: AppResponsive.h(context, 4.0)),
+                          SizedBox(
+                            width: AppResponsive.w(context, 96),
+                            height: AppResponsive.h(context, 18),
+                            child: Text(
+                              product.brands?.join(', ') ?? '-',
+                              style: TextStyle(
+                                color: AppColors.grey3,
+                                fontFamily: 'Avenir',
+                                fontSize: AppResponsive.sp(context, 13),
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.08,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(height: AppResponsive.h(context, 8.0)),
+                          _NutriscoreChip(nutriScore: product.nutriScore),
+                        ],
                       ),
                     ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 4.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      product.name ?? '-',
-                      style: const TextStyle(
-                        color: AppColors.blueDark,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            // The Floating Image
+            Positioned(
+              left: AppResponsive.w(context, 18),
+              bottom: AppResponsive.h(context, 18),
+              child: Container(
+                width: AppResponsive.w(context, 113),
+                height: AppResponsive.h(context, 113),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: AppResponsive.w(context, 10.0),
+                      offset: Offset(0, AppResponsive.h(context, 2)),
                     ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      product.brands?.join(', ') ?? '-',
-                      style: const TextStyle(
-                        color: AppColors.grey2,
-                        fontSize: 14,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8.0),
-                    _NutriscoreChip(nutriScore: product.nutriScore),
                   ],
                 ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: product.picture != null
+                      ? Image.network(
+                          product.picture!,
+                          width: AppResponsive.w(context, 113),
+                          height: AppResponsive.h(context, 113),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                            width: AppResponsive.w(context, 113),
+                            height: AppResponsive.h(context, 113),
+                            color: AppColors.grey1,
+                            child: const Icon(
+                              Icons.image_not_supported,
+                              color: AppColors.grey2,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          width: AppResponsive.w(context, 113),
+                          height: AppResponsive.h(context, 113),
+                          color: AppColors.grey1,
+                          child: const Icon(
+                            Icons.image_not_supported,
+                            color: AppColors.grey2,
+                          ),
+                        ),
+                ),
               ),
             ),
-            const SizedBox(width: 12.0),
           ],
         ),
       ),
@@ -244,17 +292,23 @@ class _NutriscoreChip extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 14,
-          height: 14,
+          width: AppResponsive.w(context, 13),
+          height: AppResponsive.h(context, 13),
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
-        const SizedBox(width: 6.0),
-        Text(
-          'Nutriscore : $label',
-          style: TextStyle(
-            color: AppColors.blueDark,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+        SizedBox(width: AppResponsive.w(context, 6.0)),
+        SizedBox(
+          width: AppResponsive.w(context, 170),
+          height: AppResponsive.h(context, 18),
+          child: Text(
+            'Nutriscore : $label',
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Avenir',
+              fontSize: AppResponsive.sp(context, 12),
+              fontWeight: FontWeight.w400,
+              letterSpacing: -0.07,
+            ),
           ),
         ),
       ],

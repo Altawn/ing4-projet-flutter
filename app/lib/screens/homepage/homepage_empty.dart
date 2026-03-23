@@ -4,6 +4,7 @@ import 'package:formation_flutter/l10n/app_localizations.dart';
 import 'package:formation_flutter/res/app_colors.dart';
 import 'package:formation_flutter/res/app_vectorial_images.dart';
 import 'package:formation_flutter/screens/auth/auth_button.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class HomePageEmpty extends StatelessWidget {
   const HomePageEmpty({super.key, this.onScan});
@@ -19,34 +20,37 @@ class HomePageEmpty extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 100),
+            SizedBox(height: AppResponsive.h(context, 100)),
             SizedBox(
-              width: 323.92,
-              height: 309.13,
+              width: AppResponsive.w(context, 323.92),
+              height: AppResponsive.h(context, 309.13),
               child: SvgPicture.asset(AppVectorialImages.illEmpty),
             ),
-            const SizedBox(height: 62.87),
+            SizedBox(height: AppResponsive.h(context, 62.87)),
             Column(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 100.5, right: 101.5),
+                  padding: EdgeInsets.only(
+                    left: AppResponsive.w(context, 100.5),
+                    right: AppResponsive.w(context, 101.5),
+                  ),
                   child: SizedBox(
-                    width: 173,
-                    height: 46,
+                    width: AppResponsive.w(context, 173),
+                    height: AppResponsive.h(context, 46),
                     child: Text(
                       localizations.my_scans_screen_description,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: AppColors.blue,
                         fontFamily: 'Avenir',
-                        fontSize: 17,
+                        fontSize: AppResponsive.sp(context, 17),
                         fontWeight: FontWeight.w400,
                         letterSpacing: -0.41,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 41),
+                SizedBox(height: AppResponsive.h(context, 41)),
                 AuthButton(
                   label: localizations.my_scans_screen_button,
                   onPressed: onScan ?? () {},
