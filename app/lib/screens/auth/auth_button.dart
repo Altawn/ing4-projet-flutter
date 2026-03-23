@@ -36,8 +36,8 @@ class AuthButton extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 20,
-              height: 20,
+              width: 15.5,
+              height: 11,
               child: SvgPicture.asset(AppVectorialImages.arrow),
             ),
           ],

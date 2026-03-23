@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 icon: SvgPicture.asset(AppVectorialImages.icPassword),
                 obscureText: true,
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 79),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

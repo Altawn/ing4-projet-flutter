@@ -41,7 +41,8 @@ class AuthTextField extends StatelessWidget {
           ),
           filled: true,
           fillColor: AppColors.white,
-          contentPadding: const EdgeInsets.symmetric(vertical: 0),
+          isDense: true,
+          contentPadding: const EdgeInsets.only(left: 0, right: 12),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: AppColors.grey2),

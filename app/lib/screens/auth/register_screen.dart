@@ -61,7 +61,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context.pushReplacement('/login');
       }
     } on DioException catch (e) {
-      debugPrint('Register Error: ${e.response?.statusCode} - ${e.response?.data}');
+      debugPrint(
+        'Register Error: ${e.response?.statusCode} - ${e.response?.data}',
+      );
       String message = 'Erreur lors de l\'inscription';
 
       if (e.response?.statusCode == 400) {
@@ -95,28 +97,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Row(
-                children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 2,
-                    child: const Text(
-                      'Inscription',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.blue,
-                      ),
-                    ),
+              Center(
+                child: const Text(
+                  'Inscription',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Avenir',
+                    color: AppColors.blue,
+                    letterSpacing: -0.48,
                   ),
-                  const Spacer(flex: 1),
-                ],
+                ),
               ),
-              const SizedBox(height: 44),
+              const SizedBox(height: 79),
               AuthTextField(
                 controller: _emailController,
                 hint: 'Adresse email',
@@ -129,26 +126,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 icon: SvgPicture.asset(AppVectorialImages.icPassword),
                 obscureText: true,
               ),
-              const SizedBox(height: 40),
-              Row(
+              const SizedBox(height: 79),
+              Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _isLoading
-                            ? const Center(child: CircularProgressIndicator())
-                            : AuthButton(
-                                label: "S'inscrire",
-                                onPressed: _register,
-                              ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(flex: 1),
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : AuthButton(label: "S'inscrire", onPressed: _register),
                 ],
               ),
               const Spacer(),
