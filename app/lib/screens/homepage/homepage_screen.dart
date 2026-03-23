@@ -47,13 +47,12 @@ class HomePage extends StatelessWidget {
                       iconSize: 23,
                       icon: Icon(AppIcons.barcode, color: AppColors.blue),
                     ),
-                  IconButton(
-                    onPressed: () => context.push('/favorites'),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon: SizedBox(
-                      width: 23,
-                      height: 23,
+                  const SizedBox(width: 24),
+                  GestureDetector(
+                    onTap: () => context.push('/favorites'),
+                    child: SizedBox(
+                      width: 23.9,
+                      height: 23.9,
                       child: SvgPicture.asset(
                         AppVectorialImages.star,
                         colorFilter: const ColorFilter.mode(
@@ -63,17 +62,15 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  IconButton(
-                    onPressed: () {
+                  const SizedBox(width: 24),
+                  GestureDetector(
+                    onTap: () {
                       AuthService().logout();
                       context.go('/login');
                     },
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    icon: SizedBox(
-                      width: 23,
-                      height: 23,
+                    child: SizedBox(
+                      width: 23.9,
+                      height: 23.9,
                       child: SvgPicture.asset(
                         AppVectorialImages.arrowInSquare,
                         colorFilter: const ColorFilter.mode(
