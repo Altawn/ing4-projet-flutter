@@ -11,31 +11,37 @@ class AuthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.yellow,
-        padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 22),
-        shape: const StadiumBorder(),
-        elevation: 0,
-      ),
-      child: Row(
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 15,
-              color: AppColors.blue,
+    return SizedBox(
+      width: 197,
+      height: 45,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.yellow,
+          padding: const EdgeInsets.only(left: 26, right: 28),
+          shape: const StadiumBorder(),
+          elevation: 0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 15,
+                fontFamily: 'Avenir',
+                color: AppColors.blue,
+                letterSpacing: -0.36,
+              ),
             ),
-          ),
-          const Spacer(),
-          SizedBox(
-            width: 18,
-            height: 18,
-            child: SvgPicture.asset(AppVectorialImages.arrow),
-          ),
-        ],
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: SvgPicture.asset(AppVectorialImages.arrow),
+            ),
+          ],
+        ),
       ),
     );
   }

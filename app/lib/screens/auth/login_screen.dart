@@ -60,7 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (mounted) {
           Provider.of<ScanHistoryManager>(context, listen: false).fetchItems();
-          Provider.of<FavoritesManager>(context, listen: false).fetchFavorites();
+          Provider.of<FavoritesManager>(
+            context,
+            listen: false,
+          ).fetchFavorites();
           context.go('/');
         }
       }
@@ -98,28 +101,23 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(),
-              Row(
-                children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 2,
-                    child: const Text(
-                      'Connexion',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.blue,
-                      ),
-                    ),
+              Center(
+                child: const Text(
+                  'Connexion',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Avenir',
+                    color: AppColors.blue,
+                    letterSpacing: -0.48,
                   ),
-                  const Spacer(flex: 1),
-                ],
+                ),
               ),
-              const SizedBox(height: 44),
+              const SizedBox(height: 79),
               AuthTextField(
                 controller: _emailController,
                 hint: 'Adresse email',
@@ -133,30 +131,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
               ),
               const SizedBox(height: 40),
-              Row(
+              Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Spacer(flex: 1),
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        AuthButton(
-                          label: 'Créer un compte',
-                          onPressed: () => context.push('/register'),
-                        ),
-                        const SizedBox(height: 12),
-                        _isLoading
-                            ? const Center(child: CircularProgressIndicator())
-                            : AuthButton(
-                                label: 'Se connecter',
-                                onPressed: _login,
-                              ),
-                      ],
-                    ),
+                  AuthButton(
+                    label: 'Créer un compte',
+                    onPressed: () => context.push('/register'),
                   ),
-                  const Spacer(flex: 1),
+                  const SizedBox(height: 12),
+                  _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : AuthButton(label: 'Se connecter', onPressed: _login),
                 ],
               ),
               const Spacer(),
