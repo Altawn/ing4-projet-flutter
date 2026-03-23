@@ -7,7 +7,7 @@ function performSync(maxRecords) {
 
     console.log("Starting RappelConso sync...");
 
-    while (offset < total && offset < (maxRecords || 1000)) {
+    while (offset < total && (!maxRecords || offset < maxRecords)) {
         try {
             const response = $http.send({
                 url: `https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso-v2-gtin-trie/records?limit=${limit}&offset=${offset}`,
@@ -56,7 +56,7 @@ function performSync(maxRecords) {
 
                     $app.save(rec);
                 } catch (e) {
-                    console.log("Error saving record: " + e);
+                    // Suppress individual save errors to avoid spam, just continue
                 }
             }
 
@@ -72,11 +72,9 @@ function performSync(maxRecords) {
 }
 
 cronAdd("syncRappels", "0 2 * * *", () => {
-    performSync(1000); // Daily full-ish sync
+    // La limite a été retirée : il récupérera toutes les données sans restriction à 2h du matin
+    console.log("CRON STARTING FULL DAILY SYNC...");
+    performSync(null); 
 });
 
-onAfterBootstrap((e) => {
-    // Run initial sync in a "background" (but non-blocking if possible)
-    // Actually in PB hooks they are sequential during startup, but let's just do a small sync
-    performSync(20); 
-});
+
