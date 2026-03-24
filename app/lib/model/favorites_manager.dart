@@ -42,8 +42,6 @@ class FavoritesManager extends ChangeNotifier {
     }
   }
 
-
-
   bool isFavorite(String barcode) {
     return _favorites.any((p) => p.barcode == barcode);
   }

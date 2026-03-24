@@ -5,22 +5,22 @@ import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_theme_extension.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
+import 'package:formation_flutter/res/app_colors.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class ProductPageHeader extends StatelessWidget {
   const ProductPageHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiSliver(
-      children: const <Widget>[ProductImageHeader(), ProductNameHeader()],
-    );
+    return MultiSliver(children: const <Widget>[ProductImageHeader()]);
   }
 }
 
 class ProductImageHeader extends StatelessWidget {
   const ProductImageHeader({super.key});
 
-  static const double kImageHeight = 300.0;
+  static const double kImageHeight = 305.0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +80,6 @@ class _ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
               borderRadius: BorderRadiusDirectional.vertical(
                 top: Radius.circular(16.0 * (1 - progress)),
               ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1 * (1.0 - progress)),
-                  blurRadius: 10.0,
-                  offset: const Offset(0.0, -2.0),
-                ),
-              ],
             ),
             child: SizedBox(width: double.infinity, height: 16.0),
           ),
@@ -122,12 +115,37 @@ class ProductNameHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(product.name ?? '-', style: context.theme.title1),
+              Text(
+                product.name ?? '-',
+                style: context.theme.title1.copyWith(
+                  fontWeight: FontWeight.w800,
+                  fontSize: AppResponsive.sp(context, 24),
+                  fontFamily: 'Avenir',
+                  color: AppColors.blue,
+                ),
+              ),
               const SizedBox(height: 3.0),
               Text(
                 product.brands?.join(', ') ?? '-',
-                style: context.theme.title2,
+                style: context.theme.title2.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: AppResponsive.sp(context, 18),
+                  fontFamily: 'Avenir',
+                  color: AppColors.grey2,
+                ),
               ),
+              if (product.altName != null) ...[
+                const SizedBox(height: 8.0),
+                Text(
+                  product.altName!,
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: AppResponsive.sp(context, 16),
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.grey3,
+                  ),
+                ),
+              ],
               const SizedBox(height: 8.0),
             ],
           ),

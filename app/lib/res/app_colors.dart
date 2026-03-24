@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-
 class AppColors {
   const AppColors._();
 

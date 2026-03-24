@@ -9,6 +9,7 @@ import 'package:formation_flutter/screens/product/states/success/tabs/product_ta
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab2.dart';
 import 'package:formation_flutter/screens/product/states/success/tabs/product_tab3.dart';
 import 'package:provider/provider.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 
 class ProductPageBody extends StatefulWidget {
   const ProductPageBody({super.key});
@@ -19,11 +20,19 @@ class ProductPageBody extends StatefulWidget {
 
 class _ProductPageBodyState extends State<ProductPageBody> {
   late ProductDetailsCurrentTab _tab;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     _tab = ProductDetailsCurrentTab.summary;
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,6 +47,7 @@ class _ProductPageBodyState extends State<ProductPageBody> {
         children: [
           Expanded(
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: <Widget>[
                 ProductPageHeader(),
                 SliverPadding(
@@ -55,6 +65,23 @@ class _ProductPageBodyState extends State<ProductPageBody> {
             currentIndex: _tab.index,
             onTap: (int position) => setState(
               () => _tab = ProductDetailsCurrentTab.values[position],
+            ),
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: const Color(0xFF080040),
+            unselectedItemColor: const Color(0xFF080040).withValues(alpha: 0.5),
+            selectedLabelStyle: TextStyle(
+              color: const Color(0xFF080040),
+              fontFamily: 'Avenir',
+              fontSize: AppResponsive.sp(context, 10),
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.16,
+            ),
+            unselectedLabelStyle: TextStyle(
+              color: const Color(0xFF080040).withValues(alpha: 0.5),
+              fontFamily: 'Avenir',
+              fontSize: AppResponsive.sp(context, 10),
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.16,
             ),
             items: ProductDetailsCurrentTab.values
                 .map(
@@ -95,10 +122,10 @@ class _ProductPageBodyState extends State<ProductPageBody> {
 }
 
 enum ProductDetailsCurrentTab {
-  summary(AppIcons.tab_barcode),
-  info(AppIcons.tab_fridge),
-  nutrition(AppIcons.tab_nutrition),
-  nutritionalValues(AppIcons.tab_array);
+  summary(AppIcons.tabBarcode),
+  info(AppIcons.tabFridge),
+  nutrition(AppIcons.tabNutrition),
+  nutritionalValues(AppIcons.tabArray);
 
   const ProductDetailsCurrentTab(this.icon);
 

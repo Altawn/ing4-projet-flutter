@@ -12,11 +12,12 @@ class RecallPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    
-    final String? displayImage = (productImage != null && productImage!.isNotEmpty)
+    final String? displayImage =
+        (productImage != null && productImage!.isNotEmpty)
         ? productImage
-        : (recall.image != null && recall.image!.isNotEmpty ? recall.image : null);
+        : (recall.image != null && recall.image!.isNotEmpty
+              ? recall.image
+              : null);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -38,16 +39,23 @@ class RecallPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: SvgPicture.asset(
-              'res/svg/35 Left_5.svg', 
-              width: 24,
-              height: 24,
-              colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
+            icon: Transform.scale(
+              scaleX: -1,
+              child: SvgPicture.asset(
+                'res/svg/35 Left_5.svg',
+                width: 24,
+                height: 24,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.blue,
+                  BlendMode.srcIn,
+                ),
+              ),
             ),
             onPressed: () {
-              final shareText = 'Rappel produit : ${recall.libelle ?? recall.gtin}\n'
+              final shareText =
+                  'Rappel produit : ${recall.libelle ?? recall.gtin}\n'
                   '${recall.lienFiche ?? ""}';
-              Share.share(shareText);
+              SharePlus.instance.share(ShareParams(text: shareText));
             },
           ),
           const SizedBox(width: 8),
@@ -64,48 +72,49 @@ class RecallPage extends StatelessWidget {
                   displayImage,
                   height: 250,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                  errorBuilder: (context, error, stackTrace) =>
+                      const SizedBox.shrink(),
                 ),
               ),
 
-            if (recall.dateDebut != null || recall.dateFin != null) ...[
-              const _SectionTitle(title: 'Dates de commercialisation'),
-              _SectionContent(
-                content: 'Du ${recall.dateDebut ?? "?"} au ${recall.dateFin ?? "?"}',
-              ),
-            ],
-            
-            if (recall.distributeurs != null && recall.distributeurs!.isNotEmpty) ...[
+            const _SectionTitle(title: 'Dates de commercialisation'),
+            _SectionContent(
+              content: (recall.dateDebut == null && recall.dateFin == null)
+                  ? 'Pas de date'
+                  : 'Du ${recall.dateDebut ?? "?"} au ${recall.dateFin ?? "?"}',
+            ),
+
+            if (recall.distributeurs != null &&
+                recall.distributeurs!.isNotEmpty) ...[
               const _SectionTitle(title: 'Distributeurs'),
               _SectionContent(content: recall.distributeurs!),
             ],
 
-            if (recall.zoneGeographique != null && recall.zoneGeographique!.isNotEmpty) ...[
+            if (recall.zoneGeographique != null &&
+                recall.zoneGeographique!.isNotEmpty) ...[
               const _SectionTitle(title: 'Zone géographique'),
               _SectionContent(content: recall.zoneGeographique!),
             ],
 
-            if (recall.motifRappel != null && recall.motifRappel!.isNotEmpty) ...[
+            if (recall.motifRappel != null &&
+                recall.motifRappel!.isNotEmpty) ...[
               const _SectionTitle(title: 'Motif du rappel'),
               _SectionContent(content: recall.motifRappel!),
             ],
 
-            if (recall.risquesEncourus != null && recall.risquesEncourus!.isNotEmpty) ...[
+            if (recall.risquesEncourus != null &&
+                recall.risquesEncourus!.isNotEmpty) ...[
               const _SectionTitle(title: 'Risques encourus'),
               _SectionContent(content: recall.risquesEncourus!),
             ],
 
-            if (recall.conduiteATenir != null && recall.conduiteATenir!.isNotEmpty) ...[
+            if (recall.conduiteATenir != null &&
+                recall.conduiteATenir!.isNotEmpty) ...[
               const _SectionTitle(title: 'Conduite à tenir'),
               _SectionContent(content: recall.conduiteATenir!),
             ],
 
-            if (recall.modalitesCompensation != null && recall.modalitesCompensation!.isNotEmpty) ...[
-              const _SectionTitle(title: 'Modalités de compensation'),
-              _SectionContent(content: recall.modalitesCompensation!),
-            ],
-
-            const SizedBox(height: 30),
+const SizedBox(height: 30),
           ],
         ),
       ),
@@ -120,15 +129,21 @@ class _SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      color: Colors.grey[50],
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: AppColors.blue,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+      width: double.infinity,
+      height: 40,
+      color: const Color(0xFFF6F6F8),
+      child: Center(
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF080040),
+            fontFamily: 'Avenir',
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.3,
+            height: 25 / 16,
+          ),
         ),
       ),
     );
@@ -142,14 +157,19 @@ class _SectionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-      child: Text(
-        content,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.grey[600],
-          fontSize: 15,
-          height: 1.6,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: Text(
+          content,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF6A6A6A),
+            fontFamily: 'Avenir',
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+            letterSpacing: -0.37,
+          ),
         ),
       ),
     );

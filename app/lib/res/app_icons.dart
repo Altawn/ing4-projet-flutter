@@ -1,4 +1,3 @@
-
 library;
 
 import 'package:flutter/widgets.dart';
@@ -9,37 +8,37 @@ class AppIcons {
   static const _kFontFam = 'AppIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData ecoscore_a = IconData(
+  static const IconData ecoscoreA = IconData(
     0xe800,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_b = IconData(
+  static const IconData ecoscoreB = IconData(
     0xe801,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_c = IconData(
+  static const IconData ecoscoreC = IconData(
     0xe802,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_d = IconData(
+  static const IconData ecoscoreD = IconData(
     0xe803,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_e = IconData(
+  static const IconData ecoscoreE = IconData(
     0xe804,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_f = IconData(
+  static const IconData ecoscoreF = IconData(
     0xe805,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData ecoscore_a_plus = IconData(
+  static const IconData ecoscoreAPlus = IconData(
     0xe806,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
@@ -64,22 +63,22 @@ class AppIcons {
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData tab_array = IconData(
+  static const IconData tabArray = IconData(
     0xe80b,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData tab_barcode = IconData(
+  static const IconData tabBarcode = IconData(
     0xe80c,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData tab_fridge = IconData(
+  static const IconData tabFridge = IconData(
     0xe80d,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,
   );
-  static const IconData tab_nutrition = IconData(
+  static const IconData tabNutrition = IconData(
     0xe80e,
     fontFamily: _kFontFam,
     fontPackage: _kFontPkg,

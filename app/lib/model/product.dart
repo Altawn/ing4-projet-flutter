@@ -1,6 +1,5 @@
 import 'package:formation_flutter/model/recall.dart';
 
-
 class Product {
   final String barcode;
   final String? name;
@@ -116,35 +115,36 @@ class Product {
       picture: json['pictures']?['front'] as String?,
       quantity: json['quantity'] as String?,
       brands: (json['brands'] as List<dynamic>?)?.cast<String>(),
-      manufacturingCountries:
-          (json['manufacturingCountries'] as List<dynamic>?)?.cast<String>(),
+      manufacturingCountries: (json['manufacturingCountries'] as List<dynamic>?)
+          ?.cast<String>(),
       nutriScore: parseNutriScore(json['nutriScore']),
       nutriScoreLevels: json['levels'] != null
           ? ProductNutriScoreLevels.fromJson(json['levels'])
           : null,
       novaScore: _parseNovaScore(json['novaScore']),
       greenScore: _parseGreenScore(json['ecoScoreGrade']),
-      ingredients:
-          (json['ingredients']?['list'] as List<dynamic>?)?.cast<String>(),
+      ingredients: (json['ingredients']?['list'] as List<dynamic>?)
+          ?.cast<String>(),
       ingredientsWithAllergens:
           json['ingredients']?['withAllergens'] as String?,
       traces: (json['traces']?['list'] as List<dynamic>?)?.cast<String>(),
       allergens: (json['allergens']?['list'] as List<dynamic>?)?.cast<String>(),
-      additives: (json['additives'] as Map<String, dynamic>?)
-          ?.map((key, value) => MapEntry(key, value as String)),
+      additives: (json['additives'] as Map<String, dynamic>?)?.map(
+        (key, value) => MapEntry(key, value as String),
+      ),
       nutrientLevels: json['nutrientLevels'] != null
           ? NutrientLevels.fromJson(json['nutrientLevels'])
           : null,
       nutritionFacts: json['nutritionFacts'] != null
           ? NutritionFacts.fromJson(json['nutritionFacts'])
           : null,
-      ingredientsFromPalmOil:
-          json['ingredients']?['containsPalmOil'] as bool?,
-      containsPalmOil:
-          ProductAnalysis.fromString(json['analysis']?['palmOil']),
+      ingredientsFromPalmOil: json['ingredients']?['containsPalmOil'] as bool?,
+      containsPalmOil: ProductAnalysis.fromString(json['analysis']?['palmOil']),
       isVegan: ProductAnalysis.fromString(json['analysis']?['vegan']),
       isVegetarian: ProductAnalysis.fromString(json['analysis']?['vegetarian']),
-      recall: json['recall'] != null ? ProductRecall.fromJson(json['recall']) : null,
+      recall: json['recall'] != null
+          ? ProductRecall.fromJson(json['recall'])
+          : null,
     );
   }
 
@@ -155,7 +155,9 @@ class Product {
       brands: [(json['marque_produit'] ?? '')],
       picture: json['picture'] as String?,
       nutriScore: parseNutriScore(json['nutriscore']),
-      recall: json['recall'] != null ? ProductRecall.fromPocketBase(json['recall']) : null,
+      recall: json['recall'] != null
+          ? ProductRecall.fromPocketBase(json['recall'])
+          : null,
     );
   }
 
@@ -182,7 +184,7 @@ class Product {
 
   static ProductGreenScore _parseGreenScore(dynamic value) {
     return switch (value?.toString().toLowerCase()) {
-      'a+' => ProductGreenScore.APlus,
+      'a+' => ProductGreenScore.aPlus,
       'a' => ProductGreenScore.A,
       'b' => ProductGreenScore.B,
       'c' => ProductGreenScore.C,
@@ -239,11 +241,13 @@ class NutritionFacts {
       proteins: json['proteins'] != null
           ? Nutriment.fromJson(json['proteins'])
           : null,
-      sodium:
-          json['sodium'] != null ? Nutriment.fromJson(json['sodium']) : null,
+      sodium: json['sodium'] != null
+          ? Nutriment.fromJson(json['sodium'])
+          : null,
       salt: json['salt'] != null ? Nutriment.fromJson(json['salt']) : null,
-      energy:
-          json['energy'] != null ? Nutriment.fromJson(json['energy']) : null,
+      energy: json['energy'] != null
+          ? Nutriment.fromJson(json['energy'])
+          : null,
     );
   }
 }
@@ -368,7 +372,7 @@ enum ProductNutriScore { A, B, C, D, E, unknown }
 
 enum ProductNovaScore { group1, group2, group3, group4, unknown }
 
-enum ProductGreenScore { A, APlus, B, C, D, E, F, unknown }
+enum ProductGreenScore { A, aPlus, B, C, D, E, F, unknown }
 
 enum ProductAnalysis {
   yes,
@@ -384,120 +388,3 @@ enum ProductAnalysis {
     };
   }
 }
-
-Product generateProduct() => Product(
-  barcode: '1234567890',
-  name: 'Nutella',
-  altName: 'Product Alt Name',
-  picture:
-      'https://images.openfoodfacts.org/images/products/301/762/042/5035/front_fr.533.400.jpg',
-  quantity: '200g',
-  brands: ['Ferrero', 'Ferrero'],
-  manufacturingCountries: ['France', 'Italie'],
-  nutriScore: ProductNutriScore.E,
-  novaScore: ProductNovaScore.group4,
-  greenScore: ProductGreenScore.D,
-  ingredients: [
-    'Sucre',
-    'sirop de glucose',
-    '_lait_ écrémé',
-    'crème légère (_lait_)',
-    'eau',
-    'beurre de cacao',
-    'matière grasse de noix de coco',
-    '_lait_ écrémé concentré sucré',
-    'pâte de cacao',
-    'farine de _blé_',
-    'matière grasse de palme',
-    '_lait_ écrémé en poudre',
-    '_lactose_',
-    'matière grasse du _lait_',
-    'huile de palmiste',
-    'petit-_lait_ en poudre',
-    'cacao maigre',
-    'beurre (_lait_)',
-    'émulsifiants (lécithine de _soja_, E471, tristéarate de sorbitane)',
-    '_lait_ entier en poudre',
-    'stabilisants (E407, E410, E412)',
-    'arômes naturels (_lait_)',
-    'sel',
-    'colorant naturel (caramel ordinaire)',
-    'cacao en poudre',
-    'poudre à lever (E503)',
-    'extrait naturel de vanille',
-  ],
-  ingredientsWithAllergens:
-      'Sucre, sirop de glucose, <span class="allergen">lait</span> écrémé, crème légère (<span class="allergen">lait</span>), eau, beurre de cacao, matière grasse de noix de coco, <span class="allergen">lait</span> écrémé concentré sucré, pâte de cacao, farine de <span class="allergen">blé</span>, matière grasse de palme, <span class="allergen">lait</span> écrémé en poudre, <span class="allergen">lactose</span>, matière grasse du <span class="allergen">lait</span>, huile de palmiste, petit-<span class="allergen">lait</span> en poudre, cacao maigre, <span class="allergen">beurre</span> (<span class="allergen">lait</span>), émulsifiants (lécithine de <span class="allergen">soja</span>, E471, tristéarate de sorbitane), <span class="allergen">lait</span> entier en poudre, stabilisants (E407, E410, E412), arômes naturels (<span class="allergen">lait</span>), sel, colorant naturel (caramel ordinaire), cacao en poudre, poudre à lever (E503), extrait naturel de vanille. (Peut contenir<span class="allergen">: cacahuète</span>, <span class="allergen">noisette</span>, <span class="allergen">amande</span>).',
-  traces: ['cacahuète', 'noisette', 'amande'],
-  allergens: ['lait', 'soja', 'beurre'],
-  additives: {'e322i': 'Description', 'e471': 'Description'},
-  nutriScoreLevels: ProductNutriScoreLevels(
-    energy: ProductNutriScoreLevel(
-      points: 3,
-      maxPoints: 10,
-      unit: 'kJ',
-      value: 1180,
-      type: ProductNutriScoreLevelType.negative,
-    ),
-    saturatedFat: ProductNutriScoreLevel(
-      points: 9,
-      maxPoints: 10,
-      unit: 'g',
-      value: 9.05,
-      type: ProductNutriScoreLevelType.negative,
-    ),
-    sugars: ProductNutriScoreLevel(
-      points: 7,
-      maxPoints: 15,
-      unit: 'g',
-      value: 25.5,
-      type: ProductNutriScoreLevelType.negative,
-    ),
-    proteins: ProductNutriScoreLevel(
-      points: 1,
-      maxPoints: 7,
-      unit: 'g',
-      value: 3.5,
-      type: ProductNutriScoreLevelType.positive,
-    ),
-    fiber: ProductNutriScoreLevel(
-      points: 0,
-      maxPoints: 5,
-      unit: 'g',
-      value: 0,
-      type: ProductNutriScoreLevelType.unknown,
-    ),
-    salt: ProductNutriScoreLevel(
-      points: 1,
-      maxPoints: 20,
-      unit: 'g',
-      value: 0,
-      type: ProductNutriScoreLevelType.positive,
-    ),
-    fruitsVegetablesLegumes: ProductNutriScoreLevel(
-      points: 0,
-      maxPoints: 5,
-      unit: '%',
-      value: 0,
-      type: ProductNutriScoreLevelType.positive,
-    ),
-  ),
-  nutrientLevels: NutrientLevels(
-    salt: 'Low',
-    saturatedFat: 'Low',
-    sugars: 'Low',
-    fat: 'Low',
-  ),
-  nutritionFacts: NutritionFacts(
-    servingSize: '100g',
-    calories: Nutriment(unit: 'kcal', perServing: 100, per100g: 100),
-    fat: Nutriment(unit: 'g', perServing: 10, per100g: 10),
-    saturatedFat: Nutriment(unit: 'g', perServing: 5, per100g: 5),
-    carbohydrate: Nutriment(unit: 'g', perServing: 20, per100g: 20),
-    sugar: Nutriment(unit: 'g', perServing: 10, per100g: 10),
-    fiber: Nutriment(unit: 'g', perServing: 5, per100g: 5),
-    proteins: Nutriment(unit: 'g', perServing: 10, per100g: 10),
-    sodium: Nutriment(unit: 'mg', perServing: 100, per100g: 100),
-    salt: Nutriment(unit: 'g', perServing: 0.1, per100g: 0.1),
-  ),
-);

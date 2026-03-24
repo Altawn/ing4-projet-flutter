@@ -44,7 +44,15 @@ class ProductPage extends StatelessWidget {
               top: 0.0,
               start: 0.0,
               child: _HeaderIcon(
-                iconWidget: const Icon(AppIcons.close, color: Colors.white),
+                iconWidget: SvgPicture.asset(
+                  'res/svg/going-back-arrow.svg',
+                  width: 18,
+                  height: 16,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
+                ),
                 tooltip: materialLocalizations.closeButtonTooltip,
                 onPressed: Navigator.of(context).pop,
               ),
@@ -73,14 +81,18 @@ class _FavoriteButton extends StatelessWidget {
         final bool isFav = favManager.isFavorite(barcode);
 
         return _HeaderIcon(
-          iconWidget: isFav
-              ? const Icon(Icons.star, color: Colors.white, size: 26.0)
-              : SvgPicture.asset(
-                  'res/svg/Shape.svg',
-                  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                  width: 24.0,
-                  height: 24.0,
-                ),
+          iconWidget: SizedBox(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(
+              isFav ? 'res/svg/star.svg' : 'res/svg/Shape.svg',
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              fit: BoxFit.contain,
+            ),
+          ),
           tooltip: isFav ? 'Retirer des favoris' : 'Ajouter aux favoris',
           onPressed: () {
             final state = fetcher.state;
@@ -95,8 +107,11 @@ class _FavoriteButton extends StatelessWidget {
 }
 
 class _HeaderIcon extends StatelessWidget {
-  const _HeaderIcon({required this.iconWidget, required this.tooltip, this.onPressed})
-    : assert(tooltip.length > 0);
+  const _HeaderIcon({
+    required this.iconWidget,
+    required this.tooltip,
+    this.onPressed,
+  }) : assert(tooltip.length > 0);
 
   final Widget iconWidget;
   final String tooltip;

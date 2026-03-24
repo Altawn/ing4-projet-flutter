@@ -19,7 +19,6 @@ class ProductCard extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            
             Container(
               height: AppResponsive.h(context, 108),
               decoration: BoxDecoration(
@@ -27,7 +26,7 @@ class ProductCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.14),
+                    color: Colors.black.withValues(alpha: 0.14),
                     blurRadius: AppResponsive.w(context, 20.0),
                     offset: Offset(0, AppResponsive.h(context, 5)),
                   ),
@@ -35,9 +34,7 @@ class ProductCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  SizedBox(
-                    width: AppResponsive.w(context, 113 + 18 + 12),
-                  ), 
+                  SizedBox(width: AppResponsive.w(context, 113 + 18 + 12)),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -48,38 +45,30 @@ class ProductCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: AppResponsive.w(context, 170),
-                            height: AppResponsive.h(context, 22),
-                            child: Text(
-                              product.name ?? '-',
-                              style: TextStyle(
-                                color: AppColors.blue,
-                                fontWeight: FontWeight.w800,
-                                fontFamily: 'Avenir',
-                                fontSize: AppResponsive.sp(context, 17),
-                                letterSpacing: -0.41,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                          Text(
+                            product.name ?? '-',
+                            style: TextStyle(
+                              color: AppColors.blue,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Avenir',
+                              fontSize: AppResponsive.sp(context, 17),
+                              letterSpacing: -0.41,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(height: AppResponsive.h(context, 4.0)),
-                          SizedBox(
-                            width: AppResponsive.w(context, 96),
-                            height: AppResponsive.h(context, 18),
-                            child: Text(
-                              product.brands?.join(', ') ?? '-',
-                              style: TextStyle(
-                                color: AppColors.grey3,
-                                fontFamily: 'Avenir',
-                                fontSize: AppResponsive.sp(context, 13),
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: -0.08,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                          Text(
+                            product.brands?.join(', ') ?? '-',
+                            style: TextStyle(
+                              color: AppColors.grey3,
+                              fontFamily: 'Avenir',
+                              fontSize: AppResponsive.sp(context, 13),
+                              fontWeight: FontWeight.w400,
+                              letterSpacing: -0.08,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(height: AppResponsive.h(context, 8.0)),
                           _NutriscoreChip(nutriScore: product.nutriScore),
@@ -90,7 +79,7 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
             ),
-            
+
             Positioned(
               left: AppResponsive.w(context, 18),
               bottom: AppResponsive.h(context, 18),
@@ -101,7 +90,7 @@ class ProductCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4.0),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: AppResponsive.w(context, 10.0),
                       offset: Offset(0, AppResponsive.h(context, 2)),
                     ),
@@ -115,7 +104,7 @@ class ProductCard extends StatelessWidget {
                           width: AppResponsive.w(context, 113),
                           height: AppResponsive.h(context, 113),
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
+                          errorBuilder: (_, _, _) => Container(
                             width: AppResponsive.w(context, 113),
                             height: AppResponsive.h(context, 113),
                             color: AppColors.grey1,
@@ -178,9 +167,7 @@ class _NutriscoreChip extends StatelessWidget {
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         SizedBox(width: AppResponsive.w(context, 6.0)),
-        SizedBox(
-          width: AppResponsive.w(context, 170),
-          height: AppResponsive.h(context, 18),
+        Expanded(
           child: Text(
             'Nutriscore : $label',
             style: TextStyle(
@@ -190,6 +177,8 @@ class _NutriscoreChip extends StatelessWidget {
               fontWeight: FontWeight.w400,
               letterSpacing: -0.07,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/model/product.dart';
 import 'package:formation_flutter/res/app_colors.dart';
+import 'package:formation_flutter/res/app_responsive.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -14,23 +15,69 @@ class ProductTab3 extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-      child: DefaultTextStyle.merge(
-        style: const TextStyle(color: AppColors.blueDark, fontSize: 16),
-        child: Table(
-          border: const TableBorder(
-            horizontalInside: BorderSide(color: AppColors.grey1, width: 1.0),
-            verticalInside: BorderSide(color: AppColors.grey1, width: 1.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsetsDirectional.only(
+            start: AppResponsive.w(context, 20.0),
+            top: AppResponsive.h(context, 10.0),
+            bottom: AppResponsive.h(context, 20.0),
           ),
-          columnWidths: const <int, TableColumnWidth>{
-            0: FlexColumnWidth(3),
-            1: FlexColumnWidth(2),
-            2: FlexColumnWidth(2),
-          },
-          children: _body(context, product.nutritionFacts!),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: AppResponsive.w(context, 313),
+                child: Text(
+                  product.name ?? '-',
+                  style: TextStyle(
+                    color: const Color(0xFF080040),
+                    fontFamily: 'Avenir',
+                    fontSize: AppResponsive.sp(context, 28),
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.45,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(height: 3.0),
+              SizedBox(
+                width: AppResponsive.w(context, 288),
+                child: Text(
+                  product.brands?.join(', ') ?? '-',
+                  style: TextStyle(
+                    color: const Color(0xFFB8BBC6),
+                    fontFamily: 'Avenir',
+                    fontSize: AppResponsive.sp(context, 17),
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: -0.27,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          child: DefaultTextStyle.merge(
+            style: const TextStyle(color: AppColors.blueDark, fontSize: 16),
+            child: Table(
+              border: const TableBorder(
+                horizontalInside: BorderSide(color: Color(0xFFF3F3F7), width: 1.0),
+                verticalInside: BorderSide(color: Color(0xFFF3F3F7), width: 1.0),
+              ),
+              columnWidths: const <int, TableColumnWidth>{
+                0: FlexColumnWidth(3),
+                1: FlexColumnWidth(2),
+                2: FlexColumnWidth(2),
+              },
+              children: _body(context, product.nutritionFacts!),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -40,7 +87,7 @@ class ProductTab3 extends StatelessWidget {
       decimalDigits: 1,
     );
 
-    final List<TableRow?> rows = <TableRow?>[];
+    final List<TableRow> rows = <TableRow>[];
 
     rows.add(
       TableRow(
@@ -77,7 +124,6 @@ class ProductTab3 extends StatelessWidget {
         numberFormat,
         'dont Acides gras saturés',
         nutritionFacts.saturatedFat,
-        indent: true,
       ),
     );
     rows.add(
@@ -92,7 +138,6 @@ class ProductTab3 extends StatelessWidget {
         numberFormat,
         'dont Sucres',
         nutritionFacts.sugar,
-        indent: true,
       ),
     );
     rows.add(
@@ -124,19 +169,14 @@ class ProductTab3 extends StatelessWidget {
       ),
     );
 
-    return rows.nonNulls.toList(growable: false);
+    return rows;
   }
 
-  TableRow? _generateCell(
+  TableRow _generateCell(
     NumberFormat numberFormat,
     String label,
-    Nutriment? nutriment, {
-    bool indent = false,
-  }) {
-    if (nutriment == null) {
-      return null;
-    }
-
+    Nutriment? nutriment,
+  ) {
     String formatField(dynamic field, String unit) {
       if (field == null) {
         return '?';
@@ -149,12 +189,12 @@ class ProductTab3 extends StatelessWidget {
 
     return TableRow(
       children: <Widget>[
-        _NutritionFactsTitle(text: label, indent: indent),
+        _NutritionFactsTitle(text: label),
         _NutritionFactsValue(
-          text: formatField(nutriment.per100g, nutriment.unit),
+          text: nutriment == null ? '?' : formatField(nutriment.per100g, nutriment.unit),
         ),
         _NutritionFactsValue(
-          text: formatField(nutriment.perServing, nutriment.unit),
+          text: nutriment == null ? '?' : formatField(nutriment.perServing, nutriment.unit),
         ),
       ],
     );
@@ -175,12 +215,14 @@ class _NutritionFactsValue extends StatelessWidget {
         vertical: 16.0,
       ),
       child: Text(
-        text, 
+        text,
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: AppColors.blueDark,
-          fontWeight: isHeader ? FontWeight.normal : FontWeight.normal,
-          fontSize: 16,
+          color: const Color(0xFF080040),
+          fontFamily: 'Avenir',
+          fontSize: 15,
+          fontWeight: isHeader ? FontWeight.w500 : FontWeight.w400,
+          height: 23 / 15,
         ),
       ),
     );
@@ -188,26 +230,24 @@ class _NutritionFactsValue extends StatelessWidget {
 }
 
 class _NutritionFactsTitle extends StatelessWidget {
-  const _NutritionFactsTitle({required this.text, this.indent = false});
+  const _NutritionFactsTitle({required this.text});
 
   final String text;
-  final bool indent;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: indent ? 20.0 : 8.0,
-        right: 8.0,
-        top: 16.0,
-        bottom: 16.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: Text(
-        text, 
+        text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: AppColors.blueDark,
-          fontSize: 16,
+          color: Color(0xFF080040),
+          fontFamily: 'Avenir',
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          height: 23 / 15,
         ),
       ),
     );

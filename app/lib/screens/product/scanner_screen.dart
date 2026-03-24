@@ -52,22 +52,22 @@ class _ScannerScreenState extends State<ScannerScreen> {
               }
             },
           ),
-          
+
           Center(
             child: Container(
               width: 250,
               height: 250,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(16),
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
               ),
             ),
           ),
-          
+
           Positioned(
             left: 0,
             right: 0,

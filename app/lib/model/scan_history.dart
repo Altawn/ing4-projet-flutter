@@ -42,8 +42,6 @@ class ScanHistoryManager extends ChangeNotifier {
     }
   }
 
-
-
   void addProduct(Product product) {
     _products.removeWhere((p) => p.barcode == product.barcode);
     _products.insert(0, product);

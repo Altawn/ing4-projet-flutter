@@ -45,12 +45,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     try {
       final dio = Dio();
-      final response = await dio.post(
+      await dio.post(
         '${AuthService.pbBaseUrl}/api/collections/users/records',
         data: {
           'email': email,
           'password': password,
-          'passwordConfirm': password, 
+          'passwordConfirm': password,
           'emailVisibility': true,
         },
       );

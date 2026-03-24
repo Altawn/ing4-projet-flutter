@@ -8,4 +8,5 @@ class AppVectorialImages {
   static const String arrow = 'res/svg/arrow.svg';
   static const String star = 'res/svg/star.svg';
   static const String arrowInSquare = 'res/svg/arrow-in-square.svg';
+  static const String goingBackArrow = 'res/svg/going-back-arrow.svg';
 }
