@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/model/favorites_manager.dart';
 import 'package:formation_flutter/model/scan_history.dart';
-import 'package:formation_flutter/res/app_icons.dart';
 import 'package:formation_flutter/screens/product/product_fetcher.dart';
 import 'package:formation_flutter/screens/product/states/empty/product_page_empty.dart';
 import 'package:formation_flutter/screens/product/states/error/product_page_error.dart';

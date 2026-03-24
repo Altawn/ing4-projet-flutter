@@ -12,10 +12,13 @@ import 'package:formation_flutter/screens/product/product_page.dart';
 import 'package:formation_flutter/screens/product/scanner_screen.dart';
 import 'package:formation_flutter/screens/product/recall_page.dart';
 import 'package:formation_flutter/model/recall.dart';
+import 'package:formation_flutter/api/recall_sync_service.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  RecallSyncService().schedulePeriodicSync();
   runApp(const MyApp());
 }
 
@@ -54,6 +57,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ScanHistoryManager()),
         ChangeNotifierProvider(create: (_) => FavoritesManager()),
+        ChangeNotifierProvider(create: (_) => RecallSyncService()),
       ],
       child: MaterialApp.router(
         title: 'Open Food Facts',

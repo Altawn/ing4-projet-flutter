@@ -13,12 +13,16 @@ class OpenFoodFactsAPI {
   OpenFoodFactsAPI._internal() : _dio = Dio(BaseOptions(baseUrl: _baseUrl));
 
   Future<Product> getProduct(String barcode) async {
-    final response = await _dio.get(
-      '/getProduct',
-      queryParameters: {'barcode': barcode},
-    );
-
-    final Map<String, dynamic> data = response.data['response'];
-    return Product.fromJson(data);
+    try {
+      final response = await _dio.get(
+        '/getProduct',
+        queryParameters: {'barcode': barcode},
+      );
+      final data = response.data['response'] as Map<String, dynamic>?;
+      if (data == null) throw Exception('Produit introuvable');
+      return Product.fromJson(data);
+    } on DioException {
+      throw Exception('Produit introuvable');
+    }
   }
 }

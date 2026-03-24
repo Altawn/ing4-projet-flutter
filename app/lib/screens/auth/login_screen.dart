@@ -10,6 +10,7 @@ import 'package:formation_flutter/api/auth_service.dart';
 import 'package:provider/provider.dart';
 import 'package:formation_flutter/model/scan_history.dart';
 import 'package:formation_flutter/model/favorites_manager.dart';
+import 'package:formation_flutter/api/recall_sync_service.dart';
 import 'package:formation_flutter/res/app_responsive.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -61,10 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (mounted) {
           Provider.of<ScanHistoryManager>(context, listen: false).fetchItems();
-          Provider.of<FavoritesManager>(
-            context,
-            listen: false,
-          ).fetchFavorites();
+          Provider.of<FavoritesManager>(context, listen: false).fetchFavorites();
+          RecallSyncService().syncIfNeeded();
           context.go('/');
         }
       }
