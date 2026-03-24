@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-// ignore: avoid_classes_with_only_static_members
+
 class AppColors {
   const AppColors._();
 

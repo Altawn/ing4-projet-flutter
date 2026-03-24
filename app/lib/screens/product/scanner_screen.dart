@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:formation_flutter/res/app_colors.dart';
-import 'package:formation_flutter/res/app_vectorial_images.dart';
-import 'package:formation_flutter/api/auth_service.dart';
 import 'package:formation_flutter/res/app_responsive.dart';
+import 'package:formation_flutter/widgets/custom_app_bar.dart';
 
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
@@ -33,60 +31,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(54.0),
-        child: AppBar(
-          backgroundColor: AppColors.white,
-          elevation: 0,
-          titleSpacing: 13.0,
-          title: const Text(
-            'Scanner un produit',
-            style: TextStyle(
-              color: AppColors.blue,
-              fontWeight: FontWeight.w800,
-              fontFamily: 'Avenir',
-              fontSize: 17,
-              letterSpacing: -0.41,
-            ),
-          ),
-          centerTitle: false,
-          actions: [
-            GestureDetector(
-              onTap: () => context.push('/favorites'),
-              child: SizedBox(
-                width: 23.9,
-                height: 23.9,
-                child: SvgPicture.asset(
-                  AppVectorialImages.star,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.blue,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 24),
-            GestureDetector(
-              onTap: () {
-                AuthService().logout();
-                context.go('/login');
-              },
-              child: SizedBox(
-                width: 23.9,
-                height: 23.9,
-                child: SvgPicture.asset(
-                  AppVectorialImages.arrowInSquare,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.blue,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 15),
-          ],
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Scanner un produit'),
       body: Stack(
         children: [
           MobileScanner(
@@ -107,7 +52,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
               }
             },
           ),
-          // Scanner Overlay Mask
+          
           Center(
             child: Container(
               width: 250,
@@ -122,7 +67,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
               ),
             ),
           ),
-          // Manual Entry Bottom Bar
+          
           Positioned(
             left: 0,
             right: 0,

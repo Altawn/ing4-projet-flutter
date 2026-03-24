@@ -1,4 +1,4 @@
-/// <reference path="../pb_data/types.d.ts" />
+
 
 function performSync(maxRecords) {
     const limit = 50;
@@ -33,7 +33,7 @@ function performSync(maxRecords) {
                     try {
                         existing = $app.findFirstRecordByFilter("rappels", `numero_fiche = "${record.numero_fiche}"`);
                     } catch (e) {
-                        // Not found
+                        
                     }
 
                     const rec = existing || new Record(collection);
@@ -56,7 +56,7 @@ function performSync(maxRecords) {
 
                     $app.save(rec);
                 } catch (e) {
-                    // Suppress individual save errors to avoid spam, just continue
+                    
                 }
             }
 
@@ -72,7 +72,7 @@ function performSync(maxRecords) {
 }
 
 cronAdd("syncRappels", "0 2 * * *", () => {
-    // La limite a été retirée : il récupérera toutes les données sans restriction à 2h du matin
+    
     console.log("CRON STARTING FULL DAILY SYNC...");
     performSync(null); 
 });

@@ -1,4 +1,4 @@
-/// <reference path="../pb_data/types.d.ts" />
+
 
 migrate((app) => {
     let collection;
@@ -12,7 +12,7 @@ migrate((app) => {
         });
     }
 
-    // Ensure fields exist
+    
     const addTextField = (name) => {
         try {
             collection.fields.getByName(name);
@@ -40,7 +40,7 @@ migrate((app) => {
     addTextField("date_fin_procedure");
     addTextField("lien_fiche");
 
-    // Rules - make public for reading
+    
     collection.listRule = "";
     collection.viewRule = "";
     collection.createRule = null;

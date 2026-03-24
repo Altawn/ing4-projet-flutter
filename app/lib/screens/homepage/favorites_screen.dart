@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:formation_flutter/model/favorites_manager.dart';
-import 'package:formation_flutter/model/product.dart';
+import 'package:formation_flutter/model/product.dart'; 
 import 'package:formation_flutter/res/app_colors.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:formation_flutter/screens/homepage/product_card.dart'; 
+import 'package:formation_flutter/widgets/custom_app_bar.dart'; 
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -11,20 +12,8 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.blueDark),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Mes favoris',
-          style: TextStyle(
-            color: AppColors.blue,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: false,
-      ),
+      backgroundColor: AppColors.grey1,
+      appBar: const CustomAppBar(title: 'Mes favoris'),
       body: Consumer<FavoritesManager>(
         builder: (context, favManager, _) {
           if (favManager.isEmpty) {

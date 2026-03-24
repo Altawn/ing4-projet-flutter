@@ -24,7 +24,7 @@ class ProductFetcher extends ChangeNotifier {
     try {
       Product product = await OpenFoodFactsAPI().getProduct(_barcode);
       
-      // Check for recall in PocketBase
+      
       final recall = await _checkRecall(_barcode);
       if (recall != null) {
         product = product.copyWith(recall: recall);

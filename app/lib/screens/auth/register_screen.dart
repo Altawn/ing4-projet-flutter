@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         data: {
           'email': email,
           'password': password,
-          'passwordConfirm': password, // Obligatoire pour PocketBase
+          'passwordConfirm': password, 
           'emailVisibility': true,
         },
       );

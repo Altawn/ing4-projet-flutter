@@ -1,8 +1,8 @@
-/// <reference path="../pb_data/types.d.ts" />
+
 migrate((app) => {
   const collection = app.findCollectionByNameOrId("products");
 
-  // Ajouter les champs
+  
   collection.fields.add(new Field({
     "hidden": false,
     "id": "text_picture",
@@ -23,7 +23,7 @@ migrate((app) => {
     "type": "text"
   }));
 
-  // Débloquer les règles de base pour que le token soit accepté
+  
   collection.createRule = "";
   collection.viewRule = "";
   collection.listRule = "";

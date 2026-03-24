@@ -1,6 +1,6 @@
 import 'package:formation_flutter/model/recall.dart';
 
-// ignore_for_file: constant_identifier_names
+
 class Product {
   final String barcode;
   final String? name;

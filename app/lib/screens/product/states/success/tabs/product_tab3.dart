@@ -47,11 +47,11 @@ class ProductTab3 extends StatelessWidget {
         children: <Widget>[
           const TableCell(child: SizedBox.shrink()),
           _NutritionFactsValue(
-            text: 'Pour 100g', // from mock directly or localizations
+            text: 'Pour 100g', 
             isHeader: true,
           ),
           _NutritionFactsValue(
-            text: 'Par part', // from mock
+            text: 'Par part', 
             isHeader: true,
           ),
         ],

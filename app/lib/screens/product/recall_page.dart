@@ -12,8 +12,8 @@ class RecallPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Prioritize the product image passed from the scanner/product page
-    // as it's guaranteed to be correct for this item.
+    
+    
     final String? displayImage = (productImage != null && productImage!.isNotEmpty)
         ? productImage
         : (recall.image != null && recall.image!.isNotEmpty ? recall.image : null);
@@ -39,7 +39,7 @@ class RecallPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: SvgPicture.asset(
-              'res/svg/35 Left_5.svg', // As per user request for sharing
+              'res/svg/35 Left_5.svg', 
               width: 24,
               height: 24,
               colorFilter: const ColorFilter.mode(AppColors.blue, BlendMode.srcIn),
